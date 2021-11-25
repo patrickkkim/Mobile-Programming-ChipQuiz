@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category">
+        <item>카테고리</item>
+        <item>역사</item>
+        <item>경제</item>
+        <item>시사</item>
+        <item>인물</item>
+        <item>넌센스</item>
+        <item>영어</item>
+        <item>우리말</item>
+    </string-array>
+    <string-array name="orderBy">
+        <item>조회순</item>
+        <item>최신순</item>
+        <item>추천순</item>
+    </string-array>
+</resources>

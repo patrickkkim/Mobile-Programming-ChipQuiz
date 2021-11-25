@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Chip 퀴즈</string>
+    <string name="findPassword"><u>비밀번호 찾기</u></string>
+</resources>

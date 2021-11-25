@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "227160944287",
+    "project_id": "chip-quiz",
+    "storage_bucket": "chip-quiz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:227160944287:android:6bca542532cf5bf9d23caa",
+        "android_client_info": {
+          "package_name": "com.koreatech.chipquiz.chipquiz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "227160944287-4rqu2f7bk1ksj3cqs60pp10bbink0es8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.koreatech.chipquiz.chipquiz",
+            "certificate_hash": "530edbcc670aa2a7be78a6e19713db4b7033ac43"
+          }
+        },
+        {
+          "client_id": "227160944287-tuj1jb40s12isjqn4qpo8c2b76jq8odc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBedJ-XMNuIs3tzbgAjWXrJTcwH2HUu02U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "227160944287-tuj1jb40s12isjqn4qpo8c2b76jq8odc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
