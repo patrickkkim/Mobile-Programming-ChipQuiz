@@ -55,8 +55,8 @@ import com.google.firebase.auth.FirebaseAuth;
 //        progressDialog = new ProgressDialog(this);
 //
 //        //button click event
-//        buttonSignin.setOnClickListener(this);
-//        textviewSignup.setOnClickListener(this);
+//        .setOnClickListener(thbuttonSignin.setOnClickListener(this);
+////        textviewSignupis);
 //        textviewFindPassword.setOnClickListener(this);
 //    }
 //
