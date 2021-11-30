@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
 //
 //public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 //    //define view objects
@@ -55,8 +56,8 @@ import com.google.firebase.auth.FirebaseAuth;
 //        progressDialog = new ProgressDialog(this);
 //
 //        //button click event
-//        buttonSignin.setOnClickListener(this);
-//        textviewSignup.setOnClickListener(this);
+//        .setOnClickListener(thbuttonSignin.setOnClickListener(this);
+////        textviewSignupis);
 //        textviewFindPassword.setOnClickListener(this);
 //    }
 //
@@ -117,24 +118,87 @@ import com.google.firebase.auth.FirebaseAuth;
 // 임시로 사용하는 로그인 액티비티
 public class LoginActivity extends AppCompatActivity {
 
+    EditText editTextEmail;
+    EditText editTextPassword;
+    ProgressDialog progressDialog;
+    FirebaseAuth firebaseAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        editTextEmail = (EditText) findViewById(R.id.editTextID);
+        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        if(firebaseAuth.getCurrentUser() != null){
+            /* {{ 여기 다음 액티비티 이동을 삽입 }} */
+            // 이미 로그인 되었다면 로그아웃
+            firebaseAuth.signOut();
+        }
+
+        Button bt = findViewById(R.id.buttonLogin);
+        bt.setOnClickListener(this::onButtonClick);
+        bt = findViewById(R.id.buttonSignup);
+        bt.setOnClickListener(this::onButtonClick);
+//        bt = findViewById(R.id.buttonGoogleSignup);
+//        bt.setOnClickListener(this::onButtonClick);
+//        bt = findViewById(R.id.buttonNaverSignup);
+//        bt.setOnClickListener(this::onButtonClick);
+
+        progressDialog = new ProgressDialog(this);
     }
 
     public void onButtonClick(View view) {
         Intent intent;
         switch(view.getId()) {
             case R.id.buttonLogin:
-                intent = new Intent(this, MypageActivity.class);
-                startActivity(intent);
+                userLogin();
                 return;
             case R.id.buttonSignup:
                 intent = new Intent(this, SignupActivity.class);
                 startActivity(intent);
                 return;
+            case R.id.buttonGoogleSignup:
+                return ;
+            case R.id.buttonNaverSignup:
+                return ;
             default: return;
         }
+    }
+
+    //firebase userLogin method
+    private void userLogin(){
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+
+        if(TextUtils.isEmpty(email)){
+            Toast.makeText(this, "email을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(TextUtils.isEmpty(password)){
+            Toast.makeText(this, "password를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        progressDialog.setMessage("로그인중입니다. 잠시 기다려 주세요...");
+        progressDialog.show();
+
+        //logging in the user
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
+                        if(task.isSuccessful()) {
+                            finish();
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            Toast.makeText(getApplicationContext(), "로그인 성공! uid : " + firebaseAuth.getUid(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "로그인 실패!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
     }
 }
