@@ -11,8 +11,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 // 코드가 매우 더럽습니다. 추후 정리하도록 하겠습니다. (__)
@@ -24,9 +36,21 @@ public class SolveQuizActivity extends AppCompatActivity {
     TextView solve3;
     TextView solve4;
     TextView answer;
+    TextView quizNum;
     String quizType;
     Button button;
     Intent intent;
+
+    // 각 답안을 저장하는 리스트
+    List<String> ans = new ArrayList<>();
+    // 문제들을 저장하는 리스트
+    List<String> des = new ArrayList<>();
+    // 전체 문제 수
+    int countOfQuestion = 0;
+    // 현재 문제 카운트
+    int currentQuestionNum = 1;
+    // 맞은 개수
+    int isCorrect = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +60,44 @@ public class SolveQuizActivity extends AppCompatActivity {
         // 퀴즈 타입 별 세팅
         this.quizTypeSetting(quizType);
 
+        // DB에서 문제를 갖고옴 (현재는 테스트로 등록해놓은 문제를 갖고오도록 설정)
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        // 경로 -> 퀴즈타입/퀴즈명/설명(답안)
+        DatabaseReference descriptions = db.getReference("SAQuiz/testProblem/descriptions");
+        DatabaseReference answers = db.getReference("SAQuiz/testProblem/answers");
+        descriptions.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snap: snapshot.getChildren()) {
+                    Log.d("SolveQuizActivity", "ValueEventListener1 : "+ snap.getValue());
+                    des.add(snap.getValue().toString());
+                    Log.d("SolveQuizActivity", "arrayTest1 : " + des);
+                    countOfQuestion += 1;
+                    Log.d("SolveQuizActivity", "countOfQuestion : " + countOfQuestion);
+                }
+                question.setText(des.get(currentQuestionNum-1).toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        answers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snap: snapshot.getChildren()) {
+                    Log.d("SolveQuizActivity", "ValueEventListener2 : "+ snap.getValue());
+                    ans.add(snap.getValue().toString());
+                    Log.d("SolveQuizActivity", "arrayTest2 : " + ans);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         // 앱 아이콘 표시
         ActionBar bar = getSupportActionBar();
@@ -45,6 +107,9 @@ public class SolveQuizActivity extends AppCompatActivity {
 
         // 앱바 이름 바꾸기
         bar.setTitle("퀴즈풀이");
+
+        quizNum = findViewById(R.id.questionNum);
+        quizNum.setText(currentQuestionNum + ".");
 
         // 입력받은 문제에 따른 문제 내용 변경
         question = findViewById(R.id.question);
@@ -164,11 +229,24 @@ public class SolveQuizActivity extends AppCompatActivity {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(getApplicationContext(), answer.getText(), Toast.LENGTH_SHORT).show();
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        intent.putExtra("isCorrect", "False");
-                        intent.putExtra("QuizType", quiz);
-                        startActivityForResult(intent, 1);
+                        // 문제가 맞을 경우 -> 정답 + 1
+                        if (answer.getText().equals(ans.get(currentQuestionNum-1).toString())) {
+                            isCorrect += 1;
+                            answer.setText("");
+                        }
+                        // 현재 문제가
+                        if (countOfQuestion > currentQuestionNum) {
+                            question.setText(des.get(currentQuestionNum).toString());
+                            currentQuestionNum += 1;
+                            quizNum.setText(currentQuestionNum + ".");
+                        }
+                        else {
+                            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            intent.putExtra("quizName", "테스트문제");
+                            intent.putExtra("isCorrect", isCorrect);
+                            intent.putExtra("numOfQuestion", countOfQuestion);
+                            startActivityForResult(intent, 1);
+                        }
                     }
                 });
                 break;
