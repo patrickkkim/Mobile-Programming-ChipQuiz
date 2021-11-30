@@ -47,7 +47,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/rounded_corner_textinput"
-            android:hint="아이디"
+            android:hint="이메일"
             android:inputType="text"
             android:padding="18dp"
             android:textSize="16sp"
@@ -148,6 +148,16 @@
             android:textColor="#F44336"
             app:layout_constraintEnd_toEndOf="@+id/editTextPassword2"
             app:layout_constraintTop_toBottomOf="@+id/editTextPassword2" />
+
+        <TextView
+            android:id="@+id/SaveError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="등록실패"
+            android:textColor="#F44336"
+            app:layout_constraintBottom_toTopOf="@+id/editTextID"
+            app:layout_constraintEnd_toEndOf="@+id/editTextID" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

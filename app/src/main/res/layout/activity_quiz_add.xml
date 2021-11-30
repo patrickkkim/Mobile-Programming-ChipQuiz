@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#F7F7F8"
+    android:orientation="vertical"
     android:paddingTop="5dp"
     android:paddingBottom="5dp">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/textbox"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/textbox"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/quiz_title"
@@ -32,192 +31,90 @@
                 android:text="제목"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
-
-            <ImageButton
-                android:id="@+id/button_close"
-                android:layout_width="29dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:onClick="onButtonClick"
-                app:srcCompat="@drawable/ic__cancel" />
-
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/quiz_title_input"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:hint="   제목을 입력하세요."
-            android:background="@drawable/textbox"/>
-
-        <TextView
-            android:id="@+id/quiz_category"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:text="카테고리"
-            android:textSize="20sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textStyle="bold" />
-
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/quiz_category_list"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/textbox"/>
-
-        <TextView
-            android:id="@+id/explanation"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:text="설명"
-            android:textSize="20sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textStyle="bold" />
-        <EditText
-            android:id="@+id/explanation_input"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:hint="   설명을 입력하세요."
-            android:background="@drawable/textbox"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#000000" />
-
-        <TextView
-            android:id="@+id/quiz_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingStart="20dp"
-            android:paddingTop="5dp"
-            android:text="문제"
-            android:textSize="20sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textStyle="bold" />
-        <EditText
-            android:id="@+id/quiz_content_input"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:hint="   문제를 입력하세요."
-            android:background="@drawable/textbox"/>
-        <TextView
-            android:id="@+id/quiz_answer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:text="정답"
-            android:textSize="20sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+                android:layout_weight="1" />
 
             <EditText
-                android:id="@+id/quiz_answer_input01"
+                android:id="@+id/quiz_title_input"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:hint="   1번 정답"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/textbox"/>
+                android:background="@drawable/textbox"
+                android:hint="   제목을 입력하세요." />
 
-            <EditText
-                android:id="@+id/quiz_answer_input02"
+            <TextView
+                android:id="@+id/quiz_category"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:hint="   2번 정답"
-                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:text="카테고리"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/quiz_category_list"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/textbox" />
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/quiz_answer_input03"
+            <TextView
+                android:id="@+id/explanation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:hint="   3번 정답"
-                android:layout_weight="1"
-                android:background="@drawable/textbox"/>
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:text="설명"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/quiz_answer_input04"
+                android:id="@+id/explanation_input"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:hint="   4번 정답"
+                android:layout_height="100dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/textbox"/>
+                android:background="@drawable/textbox"
+                android:hint="   설명을 입력하세요." />
+
+
+            <LinearLayout
+                android:id="@+id/quizFormList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:animateLayoutChanges="true">
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/buttonAddQuiz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onButtonClick"
+                android:text="문제 추가" />
+
+            <Button
+                android:id="@+id/buttonSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onButtonClick"
+                android:text="등록" />
+
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/quiz_commentary"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:text="해설"
-            android:textSize="20sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textStyle="bold" />
-        <EditText
-            android:id="@+id/quiz_commentary_input"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:hint="   해설을 입력하세요(선택)"
-            android:background="@drawable/textbox"/>
-
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
