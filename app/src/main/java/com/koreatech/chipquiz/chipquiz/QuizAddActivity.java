@@ -1,6 +1,7 @@
 package com.koreatech.chipquiz.chipquiz;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -26,7 +27,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuizAddActivity extends AppCompatActivity {
+public class QuizAddActivity extends BaseActivity {
 
     private int quizNumber = 0;
     private List<View> formViewList = new ArrayList<>();
@@ -98,6 +99,10 @@ public class QuizAddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_add);
+
+        // 앱바 이름 바꾸기
+        ActionBar bar = getSupportActionBar();
+        bar.setTitle("퀴즈 추가");
 
         Spinner categorySpinner = (Spinner) findViewById(R.id.quiz_category_list);
         ArrayAdapter<CharSequence> categoryAdapter =

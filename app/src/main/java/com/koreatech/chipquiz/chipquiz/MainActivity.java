@@ -11,9 +11,10 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     // 카테고리, 정렬 스피너
     private Spinner spinner_category;
@@ -26,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 앱바 이름 바꾸기
+        ActionBar bar = getSupportActionBar();
+        bar.setTitle("퀴즈 홈");
 
         spinner_category = (Spinner)findViewById(R.id.spinner_category);
         spinner_orderby = (Spinner)findViewById(R.id.spinner_orderby);
@@ -54,39 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    }
-    // 액션바 관련 함수
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.action_bar, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    // 액션바 관련 함수
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        switch(item.getItemId()) {
-            case R.id.action_login:
-                intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-                return true; 
-            case R.id.action_register:
-                intent = new Intent(this, SignupActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.action_quizCreate:
-                intent = new Intent(this, QuizListActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.action_mypage:
-                intent = new Intent(this, MypageActivity.class);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     // 퀴즈 이동 버튼

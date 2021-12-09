@@ -14,7 +14,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-public class ResultQuizActivity extends AppCompatActivity {
+public class ResultQuizActivity extends BaseActivity {
     boolean isLike = false;
     ImageView like;
     Intent intent;
@@ -24,13 +24,9 @@ public class ResultQuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_result);
-        // 앱 아이콘 표시
-        ActionBar bar = getSupportActionBar();
-        bar.setIcon(R.drawable.quiz);
-        bar.setDisplayUseLogoEnabled(true);
-        bar.setDisplayShowHomeEnabled(true);
 
         // 앱바 이름 바꾸기
+        ActionBar bar = getSupportActionBar();
         bar.setTitle("결과");
 
         like = findViewById(R.id.like);
@@ -62,39 +58,6 @@ public class ResultQuizActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "GO Home", Toast.LENGTH_SHORT).show();
             setResult(1, intent);
             finish();
-        }
-    }
-
-    // 액션바 관련 함수
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.action_bar, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    // 액션바 관련 함수
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.action_login:
-                Log.v("ActionBar", "login button");
-                Toast.makeText(getApplicationContext(), "로그인", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.action_register:
-                Log.v("ActionBar", "join button");
-                Toast.makeText(getApplicationContext(), "회원가입", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.action_quizCreate:
-                Log.v("ActoinBar", "addquiz button");
-                Toast.makeText(getApplicationContext(), "문제등록/수정", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.action_mypage:
-                Log.v("ActionBar", "mypage button");
-                Toast.makeText(getApplicationContext(), "마이페이지", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
     }
 }

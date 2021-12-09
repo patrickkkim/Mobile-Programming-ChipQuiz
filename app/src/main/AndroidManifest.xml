@@ -10,13 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChipQuiz">
         <activity
+            android:name=".BaseActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".ResultQuizActivity"
@@ -39,11 +44,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".SignupActivity"></activity>
-        <activity android:name=".MypageActivity"></activity>
-        <activity android:name=".SignupCompleteActivity"></activity>
-        <activity android:name=".Quiztest"></activity>
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".MypageActivity" />
+        <activity android:name=".SignupCompleteActivity" />
+        <activity android:name=".Quiztest" />
     </application>
 
 </manifest>

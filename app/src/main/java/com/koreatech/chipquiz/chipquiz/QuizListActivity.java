@@ -5,19 +5,19 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class QuizListActivity extends AppCompatActivity {
+public class QuizListActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_list);
 
-        //액션바 이름 변경
-        // getSupportActionBar().setTitle("퀴즈 홈");
-        //액션바 배경색 변경
-        // getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF1CC079));
+        // 앱바 이름 바꾸기
+        ActionBar bar = getSupportActionBar();
+        bar.setTitle("마이 퀴즈");
     }
 
     public void onEditClick(View view) {
