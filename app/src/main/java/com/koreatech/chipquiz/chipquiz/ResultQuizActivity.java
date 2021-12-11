@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -19,6 +20,10 @@ public class ResultQuizActivity extends AppCompatActivity {
     ImageView like;
     Intent intent;
     String quizType;
+    TextView quizName;
+    TextView result1;
+    String NameQuiz;
+    String tmp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +37,15 @@ public class ResultQuizActivity extends AppCompatActivity {
 
         // 앱바 이름 바꾸기
         bar.setTitle("결과");
-
+        NameQuiz = getIntent().getStringExtra("quizName");
+        tmp = "정답: "+getIntent().getIntExtra("inCorrect", 0) + " / " + getIntent().getIntExtra("numOfQuestion", 0);
         like = findViewById(R.id.like);
         quizType = getIntent().getStringExtra("QuizType");
+        quizName = findViewById(R.id.quizName);
+        result1 = findViewById(R.id.result1);
+
+        quizName.setText(NameQuiz);
+        result1.setText(tmp);
     }
 
     // 결과 하단 버튼
