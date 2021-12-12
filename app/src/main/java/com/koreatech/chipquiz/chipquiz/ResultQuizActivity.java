@@ -38,7 +38,7 @@ public class ResultQuizActivity extends AppCompatActivity {
         // 앱바 이름 바꾸기
         bar.setTitle("결과");
         NameQuiz = getIntent().getStringExtra("quizName");
-        tmp = "정답: "+getIntent().getIntExtra("inCorrect", 0) + " / " + getIntent().getIntExtra("numOfQuestion", 0);
+        tmp = "정답: "+getIntent().getIntExtra("isCorrect", 0) + " / " + getIntent().getIntExtra("numOfQuestion", 0);
         like = findViewById(R.id.like);
         quizType = getIntent().getStringExtra("QuizType");
         quizName = findViewById(R.id.quizName);
