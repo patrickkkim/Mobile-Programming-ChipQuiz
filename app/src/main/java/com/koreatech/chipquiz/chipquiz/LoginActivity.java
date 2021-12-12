@@ -1,6 +1,8 @@
 package com.koreatech.chipquiz.chipquiz;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,6 +20,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 //
 //public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
@@ -114,7 +123,6 @@ import com.google.firebase.auth.FirebaseAuth;
 //    }
 //}
 
-
 // 임시로 사용하는 로그인 액티비티
 public class LoginActivity extends AppCompatActivity {
 
@@ -142,6 +150,8 @@ public class LoginActivity extends AppCompatActivity {
         bt.setOnClickListener(this::onButtonClick);
         bt = findViewById(R.id.buttonSignup);
         bt.setOnClickListener(this::onButtonClick);
+        bt = findViewById(R.id.buttonFindPassword);
+        bt.setOnClickListener(this::onButtonClick);
 //        bt = findViewById(R.id.buttonGoogleSignup);
 //        bt.setOnClickListener(this::onButtonClick);
 //        bt = findViewById(R.id.buttonNaverSignup);
@@ -164,8 +174,58 @@ public class LoginActivity extends AppCompatActivity {
                 return ;
             case R.id.buttonNaverSignup:
                 return ;
+            case R.id.buttonFindPassword:
+                passwordDialog();
+                return ;
             default: return;
         }
+    }
+
+    private void passwordDialog() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("비밀번호 찾기");
+        alert.setMessage("당신의 이메일을 입력하세요.");
+
+        final EditText email = new EditText(this);
+        alert.setView(email);
+
+        alert.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                findpassword(email.getText().toString().trim());
+                dialog.dismiss();
+            }
+        });
+        alert.setNegativeButton("no", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.dismiss();
+            }
+        });
+        alert.show();
+    }
+
+    private void findpassword(String email) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String result = "";
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    // 아래는 스냅샷을 class형태의 객체로 받아오는 방법
+                    User user = snapshot.getValue(User.class);
+                    if (user.email.equals(email)) {
+                        result = user.password;
+                        break;
+                    }
+                }
+                Toast.makeText(getApplicationContext(), "당신의 비밀번호 !!! \n" + result, Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
     }
 
     //firebase userLogin method
@@ -194,7 +254,6 @@ public class LoginActivity extends AppCompatActivity {
                         if(task.isSuccessful()) {
                             finish();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                            Toast.makeText(getApplicationContext(), "로그인 성공! uid : " + firebaseAuth.getUid(), Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(), "로그인 실패!", Toast.LENGTH_LONG).show();
                         }

@@ -27,8 +27,11 @@ public class SignupCompleteActivity extends AppCompatActivity {
             case R.id.buttonLogin:
                 intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
-                return;
-            default: return;
+                finish();
+            case R.id.buttonHome:
+                intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
         }
     }
 }
