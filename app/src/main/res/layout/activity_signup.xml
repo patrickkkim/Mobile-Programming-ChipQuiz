@@ -14,10 +14,10 @@
         android:layout_width="381dp"
         android:layout_height="626dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_corner"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,9 +29,6 @@
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/rounded_corner_button"
-            android:backgroundTint="#1CB5C0"
-            android:backgroundTintMode="src_in"
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:onClick="onButtonClick"
@@ -44,6 +41,25 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/verificationEmail" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/verificationEmail"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="16dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:onClick="onButtonClick"
+            android:text="확인 메일 전송"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextNickname" />
 
         <EditText
             android:id="@+id/editTextID"
@@ -164,28 +180,6 @@
             android:textColor="#F44336"
             app:layout_constraintBottom_toTopOf="@+id/editTextID"
             app:layout_constraintEnd_toEndOf="@+id/editTextID" />
-
-        <Button
-            android:id="@+id/verificationEmail"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="44dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/rounded_corner_button"
-            android:backgroundTint="#1CB5C0"
-            android:backgroundTintMode="src_in"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:onClick="onButtonClick"
-            android:text="확인 메일 전송"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextNickname" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

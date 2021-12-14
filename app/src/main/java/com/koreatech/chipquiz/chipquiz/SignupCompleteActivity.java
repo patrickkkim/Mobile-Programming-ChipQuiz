@@ -22,16 +22,9 @@ public class SignupCompleteActivity extends AppCompatActivity {
     }
 
     public void onButtonClick(View view) {
-        Intent intent;
-        switch(view.getId()) {
-            case R.id.buttonLogin:
-                intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            case R.id.buttonHome:
-                intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                finish();
-        }
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 }
