@@ -48,6 +48,8 @@ public class SolveQuizActivity extends AppCompatActivity {
     List<String> des = new ArrayList<>();
     // MCQuiz용 리스트
     List<String> quizInfo = new ArrayList<>();
+    // 못푼 문제 번호 넣는 리스트
+    ArrayList<Integer> notSolve = new ArrayList<>();
     // 전체 문제 수
     int countOfQuestion = 0;
     // 현재 문제 카운트
@@ -153,7 +155,7 @@ public class SolveQuizActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Report", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "미구현 상태입니다.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -236,7 +238,6 @@ public class SolveQuizActivity extends AppCompatActivity {
                             quizNum += 1;
                         }
                         Log.d("SolveQuizActivity", "arrayTest2(out of for) : " + quizInfo);
-                        //question.setText(quizInfo.get(5 + 6 * (currentQuestionNum-1)));
                     }
 
                     @Override
@@ -294,6 +295,8 @@ public class SolveQuizActivity extends AppCompatActivity {
                         if (writeAnswer.equals(correctAnswer)) {
                             isCorrect += 1;
                         }
+                        else
+                            notSolve.add(currentQuestionNum);
                         answer.setText(null);
                         // 현재 문제가 마지막 문제가 아닐 경우
                         if (countOfQuestion > currentQuestionNum) {
@@ -307,6 +310,7 @@ public class SolveQuizActivity extends AppCompatActivity {
                             intent.putExtra("quizName", quizName);
                             intent.putExtra("isCorrect", isCorrect);
                             intent.putExtra("numOfQuestion", countOfQuestion);
+                            intent.putIntegerArrayListExtra("notSolve", notSolve);
                             startActivityForResult(intent, 1);
                         }
                     }
@@ -335,9 +339,9 @@ public class SolveQuizActivity extends AppCompatActivity {
             intent.putExtra("quizName", quizName);
             intent.putExtra("isCorrect", isCorrect);
             intent.putExtra("numOfQuestion", countOfQuestion);
+            intent.putIntegerArrayListExtra("notSolve", notSolve);
             startActivityForResult(intent, 1);
         }
-
     }
 
     // 퀴즈 답안 세팅, SQL 적용하면서 사용할 예정(현재는 사용하지 않았음)
@@ -356,7 +360,9 @@ public class SolveQuizActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Solve1", Toast.LENGTH_SHORT).show();
                 if (randNum == 0)
                     isCorrect += 1;
-                // 현재 퀴즈가 마지막 퀴즈일 경우
+                else
+                    notSolve.add(currentQuestionNum);
+                // 마지막 퀴즈인지 판단, 아닐 경우 다음 문제 세팅
                 isLastMCQuiz();
             }
         });
@@ -367,6 +373,8 @@ public class SolveQuizActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Solve2", Toast.LENGTH_SHORT).show();
                 if (randNum == 3)
                     isCorrect += 1;
+                else
+                    notSolve.add(currentQuestionNum);
                 isLastMCQuiz();
             }
         });
@@ -377,6 +385,8 @@ public class SolveQuizActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Solve3", Toast.LENGTH_SHORT).show();
                 if (randNum == 2)
                     isCorrect += 1;
+                else
+                    notSolve.add(currentQuestionNum);
                 isLastMCQuiz();
             }
         });
@@ -387,6 +397,8 @@ public class SolveQuizActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Solve4", Toast.LENGTH_SHORT).show();
                 if (randNum == 1)
                     isCorrect += 1;
+                else
+                    notSolve.add(currentQuestionNum);
                 isLastMCQuiz();
             }
         });

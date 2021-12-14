@@ -14,16 +14,38 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 
 public class ResultQuizActivity extends AppCompatActivity {
+    FirebaseAuth firebaseAuth;
+
     boolean isLike = false;
+    long score;
+    long questionCount;
+    long correctQuiz;
     ImageView like;
     Intent intent;
     String quizType;
     TextView quizName;
     TextView result1;
+    // 퀴즈 이름 문자열
     String NameQuiz;
-    String tmp;
+    // 맞춘 문제/ 문제수를 표현할 문자열
+    String information;
+    // 유저 uid
+    String uid;
+    // 문제를 푼 날짜
+    String date;
+    // 못맞춘 문제들
+    List<Long> notSolve = new ArrayList<>();
+    // 날짜를 위한 변수
+    SimpleDateFormat sdfm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,17 +57,30 @@ public class ResultQuizActivity extends AppCompatActivity {
         bar.setDisplayUseLogoEnabled(true);
         bar.setDisplayShowHomeEnabled(true);
 
+        questionCount = (long)getIntent().getIntExtra("numOfQuestion", 1);
+        correctQuiz = (long)getIntent().getIntExtra("isCorrect", 0);
+
         // 앱바 이름 바꾸기
         bar.setTitle("결과");
+
         NameQuiz = getIntent().getStringExtra("quizName");
-        tmp = "정답: "+getIntent().getIntExtra("isCorrect", 0) + " / " + getIntent().getIntExtra("numOfQuestion", 0);
+        information = "정답: "+ correctQuiz + " / " + questionCount;
         like = findViewById(R.id.like);
         quizType = getIntent().getStringExtra("QuizType");
         quizName = findViewById(R.id.quizName);
         result1 = findViewById(R.id.result1);
+        firebaseAuth = FirebaseAuth.getInstance();
+        score = 100 / questionCount * correctQuiz;
+        sdfm = new SimpleDateFormat("yyyy년MM월dd일");
+        date = sdfm.format(new Date());
+        uid = firebaseAuth.getUid();
+
+        History histoty = new History(NameQuiz, uid, date, isLike, notSolve, score);
+
+
 
         quizName.setText(NameQuiz);
-        result1.setText(tmp);
+        result1.setText(information);
     }
 
     // 결과 하단 버튼
@@ -61,7 +96,7 @@ public class ResultQuizActivity extends AppCompatActivity {
             else {
                 like.setImageResource(R.drawable.unlike);
             }
-            Toast.makeText(getApplicationContext(), "Like Button", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Like Button" + date, Toast.LENGTH_SHORT).show();
         }
         else if (viewId == R.id.retry) {
             Toast.makeText(getApplicationContext(), quizType, Toast.LENGTH_SHORT).show();
