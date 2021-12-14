@@ -18,7 +18,9 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/textbox"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:focusable="false"
+            android:focusableInTouchMode="true">
 
             <TextView
                 android:id="@+id/quiz_title"
@@ -44,6 +46,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
+                android:focusable="false"
                 android:background="@drawable/textbox"
                 android:hint="   제목을 입력하세요." />
 
@@ -86,9 +89,19 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
+                android:focusable="false"
                 android:background="@drawable/textbox"
                 android:hint="   설명을 입력하세요." />
 
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/quiz_type_list"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="200dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/textbox" />
 
             <LinearLayout
                 android:id="@+id/quizFormList"
@@ -98,20 +111,35 @@
                 android:animateLayoutChanges="true">
             </LinearLayout>
 
-
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonAddQuiz"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/rounded_corner_button"
+                android:backgroundTint="@color/sub_color"
+                android:backgroundTintMode="src_in"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
                 android:onClick="onButtonClick"
                 android:text="문제 추가" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/rounded_corner_button"
+                android:backgroundTint="@color/main_color"
+                android:backgroundTintMode="src_in"
                 android:onClick="onButtonClick"
-                android:text="등록" />
+                android:text="등록"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
