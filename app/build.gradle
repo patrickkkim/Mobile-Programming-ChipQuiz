@@ -47,5 +47,5 @@ dependencies {
     // Add more firebase Library
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-database'
-
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
 }
