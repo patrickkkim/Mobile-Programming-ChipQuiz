@@ -30,7 +30,7 @@
         android:layout_gravity="right"
         android:background="@drawable/textbox"
         android:backgroundTint="#FF1CC079"
-        android:onClick="onEditClick"
+        android:onClick="onButtonClick"
         android:text="Edit" />
 
 

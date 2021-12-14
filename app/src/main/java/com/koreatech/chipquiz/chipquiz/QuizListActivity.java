@@ -60,14 +60,22 @@ public class QuizListActivity extends BaseActivity {
         });
     }
 
-    public void onEditClick(View view) {
-        String key = view.getTag(R.id.quizName).toString();
-        String type = view.getTag(R.id.quizType).toString();
+    public void onButtonClick(View view) {
         Intent intent;
-        intent = new Intent(this, QuizAddActivity.class);
-        intent.putExtra("key", key);
-        intent.putExtra("type", type);
-        startActivity(intent);
+        switch (view.getId()) {
+            case R.id.button_edit:
+                String key = view.getTag(R.id.quizName).toString();
+                String type = view.getTag(R.id.quizType).toString();
+                intent = new Intent(this, QuizAddActivity.class);
+                intent.putExtra("key", key);
+                intent.putExtra("type", type);
+                startActivity(intent);
+                break;
+            case R.id.buttonAddQuiz:
+                intent = new Intent(this, QuizAddActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 
     private void addListForm(String name, String type) {

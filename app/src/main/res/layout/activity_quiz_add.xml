@@ -6,7 +6,9 @@
     android:background="#F7F7F8"
     android:orientation="vertical"
     android:paddingTop="5dp"
-    android:paddingBottom="5dp">
+    android:paddingBottom="5dp"
+    android:focusable="false"
+    android:focusableInTouchMode="true">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,9 +20,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/textbox"
-            android:orientation="vertical"
-            android:focusable="false"
-            android:focusableInTouchMode="true">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/quiz_title"
@@ -46,7 +46,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:focusable="false"
                 android:background="@drawable/textbox"
                 android:hint="   제목을 입력하세요." />
 
@@ -89,7 +88,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:focusable="false"
                 android:background="@drawable/textbox"
                 android:hint="   설명을 입력하세요." />
 
