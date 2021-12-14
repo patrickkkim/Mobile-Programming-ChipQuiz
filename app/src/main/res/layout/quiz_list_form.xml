@@ -7,7 +7,7 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/quiz_list01"
+        android:id="@+id/quiz_title"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
@@ -24,7 +24,7 @@
         android:layout_weight="1" />
 
     <Button
-        android:id="@+id/button_edit01"
+        android:id="@+id/button_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"

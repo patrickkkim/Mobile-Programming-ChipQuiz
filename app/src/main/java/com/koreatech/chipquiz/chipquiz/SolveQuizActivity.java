@@ -28,7 +28,7 @@ import java.util.List;
 
 
 // 코드가 매우 더럽습니다. 추후 정리하도록 하겠습니다. (__)
-public class SolveQuizActivity extends AppCompatActivity {
+public class SolveQuizActivity extends BaseActivity {
 
     TextView question;
     TextView solve1;
@@ -67,13 +67,8 @@ public class SolveQuizActivity extends AppCompatActivity {
         quizTypeSetting(quizType);
         getQuizFromDB(quizName, quizType);
 
-        // 앱 아이콘 표시
-        ActionBar bar = getSupportActionBar();
-        bar.setIcon(R.drawable.quiz);
-        bar.setDisplayUseLogoEnabled(true);
-        bar.setDisplayShowHomeEnabled(true);
-
         // 앱바 이름 바꾸기
+        ActionBar bar = getSupportActionBar();
         bar.setTitle("퀴즈풀이");
 
         quizNum = findViewById(R.id.questionNum);
@@ -403,39 +398,7 @@ public class SolveQuizActivity extends AppCompatActivity {
             }
         });
     }
-    // 앱바 드롭다운
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.action_bar, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    // 액션바 관련 함수
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.action_login:
-                Log.v("ActionBar", "login button");
-                Toast.makeText(getApplicationContext(), "로그인", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.action_register:
-                Log.v("ActionBar", "join button");
-                Toast.makeText(getApplicationContext(), "회원가입", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.action_quizCreate:
-                Log.v("ActoinBar", "addquiz button");
-                Toast.makeText(getApplicationContext(), "문제등록/수정", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.action_mypage:
-                Log.v("ActionBar", "mypage button");
-                Toast.makeText(getApplicationContext(), "마이페이지", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
     // 결과 화면에서 선택하는 것에 따라 처리내용 변경하기 위한 함수
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

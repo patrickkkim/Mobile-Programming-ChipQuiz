@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class ResultQuizActivity extends AppCompatActivity {
+public class ResultQuizActivity extends BaseActivity {
     FirebaseAuth firebaseAuth;
 
     boolean isLike = false;
