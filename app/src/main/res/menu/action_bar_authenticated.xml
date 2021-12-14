@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_quizCreate"
+        android:title="문제등록/수정"
+        android:orderInCategory="300"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/action_mypage"
+        android:title="마이페이지"
+        android:orderInCategory="400"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/action_logout"
+        android:title="로그아웃"
+        android:orderInCategory="500"
+        app:showAsAction="never"
+        />
+
+</menu>

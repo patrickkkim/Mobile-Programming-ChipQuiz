@@ -14,17 +14,5 @@
         android:orderInCategory="200"
         app:showAsAction="never"
         />
-    <item
-        android:id="@+id/action_quizCreate"
-        android:title="문제등록/수정"
-        android:orderInCategory="300"
-        app:showAsAction="never"
-        />
-    <item
-        android:id="@+id/action_mypage"
-        android:title="마이페이지"
-        android:orderInCategory="400"
-        app:showAsAction="never"
-        />
 
 </menu>

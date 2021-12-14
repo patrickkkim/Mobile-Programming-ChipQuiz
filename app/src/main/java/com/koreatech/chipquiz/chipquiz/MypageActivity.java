@@ -4,9 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MypageActivity extends AppCompatActivity {
+public class MypageActivity extends BaseActivity {
 
     //asfdsfa
 
@@ -14,6 +15,10 @@ public class MypageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
+
+        // 앱바 이름 바꾸기
+        ActionBar bar = getSupportActionBar();
+        bar.setTitle("마이페이지");
     }
 
     public void onButtonClick(View view) {

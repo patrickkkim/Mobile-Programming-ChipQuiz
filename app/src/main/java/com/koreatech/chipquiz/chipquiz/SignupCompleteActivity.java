@@ -5,14 +5,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class SignupCompleteActivity extends AppCompatActivity {
+public class SignupCompleteActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_complete);
+
+        // 앱바 이름 바꾸기
+        ActionBar bar = getSupportActionBar();
+        bar.setTitle("회원가입 완료");
 
         Intent intent = getIntent();
         String nickname = intent.getStringExtra("nickname");

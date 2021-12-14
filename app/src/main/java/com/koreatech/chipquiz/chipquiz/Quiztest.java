@@ -30,7 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Quiztest extends AppCompatActivity{
+public class Quiztest extends BaseActivity{
     //firebase auth object
     private FirebaseAuth firebaseAuth;
 

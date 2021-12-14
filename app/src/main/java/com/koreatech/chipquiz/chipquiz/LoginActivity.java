@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,7 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 // 임시로 사용하는 로그인 액티비티
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     EditText editTextEmail;
     EditText editTextPassword;
@@ -36,6 +37,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // 앱바 이름 바꾸기
+        ActionBar bar = getSupportActionBar();
+        bar.setTitle("로그인");
 
         editTextEmail = (EditText) findViewById(R.id.editTextID);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
