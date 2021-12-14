@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // 회원가입 액티비티
-public class SignupActivity extends AppCompatActivity {
+public class SignupActivity extends BaseActivity {
     EditText editTextEmail;
     EditText editTextPassword;
     EditText editTextPassword2;
@@ -42,6 +43,10 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         firebaseAuth = FirebaseAuth.getInstance();
+
+        // 앱바 이름 바꾸기
+        ActionBar bar = getSupportActionBar();
+        bar.setTitle("회원가입");
 
         if(firebaseAuth.getCurrentUser() != null){
             /*  {{ 액티비티 이동 추가 }}  */

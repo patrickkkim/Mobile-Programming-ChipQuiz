@@ -13,4 +13,17 @@
         <item>영어</item>
         <item>우리말</item>
     </string-array>
+
+    <string-array name="category_array_select">
+        <item>역사</item>
+        <item>경제</item>
+        <item>시사</item>
+        <item>인물</item>
+        <item>넌센스</item>
+        <item>영어</item>
+        <item>우리말</item>
+    </string-array>
+
+    <item type="id" name="quizType" />
+    <item type="id" name="quizName" />
 </resources>

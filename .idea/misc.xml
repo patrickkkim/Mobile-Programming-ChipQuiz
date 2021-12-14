@@ -3,21 +3,32 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProject/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_solvequiz.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProject/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_solvequiz_ox.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProject/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_solvequiz_short.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/drawable-v24/textbox_spinner.xml" value="0.38229166666666664" />
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/drawable/button_style_main.xml" value="0.38229166666666664" />
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/drawable/button_style_report.xml" value="0.21944444444444444" />
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/drawable/logo.xml" value="0.21944444444444444" />
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/drawable/rounded_corner.xml" value="0.38229166666666664" />
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/drawable/rounded_corner_border.xml" value="0.38229166666666664" />
         <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/drawable/rounded_corner_border_transparent.xml" value="0.38229166666666664" />
         <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/drawable/rounded_corner_button.xml" value="0.38229166666666664" />
         <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/drawable/rounded_corner_button_border.xml" value="0.38229166666666664" />
         <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/drawable/rounded_corner_textinput.xml" value="0.38229166666666664" />
         <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/drawable/textbox.xml" value="0.38229166666666664" />
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_base.xml" value="0.36614583333333334" />
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_login.xml" value="0.4868421052631579" />
         <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_mypage.xml" value="0.28532608695652173" />
         <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_quiz_add.xml" value="0.33" />
-        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_quiz_list.xml" value="0.5" />
-        <entry key="..\:/AndroidStudioProject/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_solvequiz.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProject/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_solvequiz_ox.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProject/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_solvequiz_short.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_quiz_list.xml" value="0.25" />
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_solvequiz_ox.xml" value="0.36614583333333334" />
         <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/layout/quiz_list_form.xml" value="0.36614583333333334" />
         <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/layout/quiz_multiple_form.xml" value="0.36614583333333334" />
-
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/layout/quiz_ox_form.xml" value="0.36614583333333334" />
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/layout/quiz_single_form.xml" value="0.36614583333333334" />
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/menu/action_bar.xml" value="0.36614583333333334" />
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/menu/action_bar_authenticated.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/Patrick Kim/Downloads/ChipQuiz/app/src/main/res/drawable/layout_style.xml" value="0.2518518518518518" />
         <entry key="..\:/Users/Patrick Kim/Downloads/ChipQuiz/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/Users/Patrick Kim/Downloads/ChipQuiz/app/src/main/res/layout/activity_main.xml" value="0.4" />
@@ -37,7 +48,6 @@
         <entry key="..\:/Users/user/Documents/android_project/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_signup.xml" value="0.33" />
         <entry key="..\:/Users/user/Documents/android_project/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_signup_complete.xml" value="0.29739583333333336" />
         <entry key="..\:/Users/user/Documents/android_project/Mobile-Programming-ChipQuiz/app/src/main/res/layout/quiztest.xml" value="0.2828125" />
-
       </map>
     </option>
   </component>
