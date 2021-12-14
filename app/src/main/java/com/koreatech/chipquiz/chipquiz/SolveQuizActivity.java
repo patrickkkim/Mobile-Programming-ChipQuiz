@@ -38,6 +38,7 @@ public class SolveQuizActivity extends BaseActivity {
     TextView answer;
     TextView quizNum;
     String quizType;
+    String quizName;
     Button button;
     Intent intent;
 
@@ -45,6 +46,8 @@ public class SolveQuizActivity extends BaseActivity {
     List<String> ans = new ArrayList<>();
     // 문제들을 저장하는 리스트
     List<String> des = new ArrayList<>();
+    // MCQuiz용 리스트
+    List<String> quizInfo = new ArrayList<>();
     // 전체 문제 수
     int countOfQuestion = 0;
     // 현재 문제 카운트
@@ -56,48 +59,11 @@ public class SolveQuizActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         quizType = getIntent().getStringExtra("QuizType");
+        quizName = getIntent().getStringExtra("QuizName");
         intent = new Intent(SolveQuizActivity.this, ResultQuizActivity.class);
         // 퀴즈 타입 별 세팅
-        this.quizTypeSetting(quizType);
-
-        // DB에서 문제를 갖고옴 (현재는 테스트로 등록해놓은 문제를 갖고오도록 설정)
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
-        // 경로 -> 퀴즈타입/퀴즈명/설명(답안)
-        DatabaseReference descriptions = db.getReference("SAQuiz/testProblem/descriptions");
-        DatabaseReference answers = db.getReference("SAQuiz/testProblem/answers");
-        descriptions.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot snap: snapshot.getChildren()) {
-                    Log.d("SolveQuizActivity", "ValueEventListener1 : "+ snap.getValue());
-                    des.add(snap.getValue().toString());
-                    Log.d("SolveQuizActivity", "arrayTest1 : " + des);
-                    countOfQuestion += 1;
-                    Log.d("SolveQuizActivity", "countOfQuestion : " + countOfQuestion);
-                }
-                question.setText(des.get(currentQuestionNum-1).toString());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        answers.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot snap: snapshot.getChildren()) {
-                    Log.d("SolveQuizActivity", "ValueEventListener2 : "+ snap.getValue());
-                    ans.add(snap.getValue().toString());
-                    Log.d("SolveQuizActivity", "arrayTest2 : " + ans);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        quizTypeSetting(quizType);
+        getQuizFromDB(quizName, quizType);
 
         // 앱바 이름 바꾸기
         ActionBar bar = getSupportActionBar();
@@ -112,10 +78,10 @@ public class SolveQuizActivity extends BaseActivity {
         switch(getIntent().getStringExtra("QuizName")) {
             case "QuizOne":
                 question.setText("퀴즈1입니다.");
-                if (quizType.equals("OX") | quizType.equals("ChooseFour")) {
+                if (quizType.equals("OX") | quizType.equals("MCQuiz")) {
                     solve1.setText("퀴즈1 답안1입니다.");
                     solve2.setText("퀴즈1 답안2입니다.");
-                    if (quizType.equals("ChooseFour")) {
+                    if (quizType.equals("MCQuiz")) {
                         solve3.setText("퀴즈1 답안3입니다.");
                         solve4.setText("퀴즈1 답안4입니다.");
                     }
@@ -123,10 +89,10 @@ public class SolveQuizActivity extends BaseActivity {
                 break;
             case "QuizTwo":
                 question.setText("퀴즈2입니다.");
-                if (quizType.equals("OX") | quizType.equals("ChooseFour")) {
+                if (quizType.equals("OX") | quizType.equals("MCQuiz")) {
                     solve1.setText("퀴즈2 답안1입니다.");
                     solve2.setText("퀴즈2 답안2입니다.");
-                    if (quizType.equals("ChooseFour")) {
+                    if (quizType.equals("MCQuiz")) {
                         solve3.setText("퀴즈2 답안3입니다.");
                         solve4.setText("퀴즈2 답안4입니다.");
                     }
@@ -134,10 +100,10 @@ public class SolveQuizActivity extends BaseActivity {
                 break;
             case "QuizThree":
                 question.setText("퀴즈3입니다.");
-                if (quizType.equals("OX") | quizType.equals("ChooseFour")) {
+                if (quizType.equals("OX") | quizType.equals("MCQuiz")) {
                     solve1.setText("퀴즈3 답안1입니다.");
                     solve2.setText("퀴즈3 답안2입니다.");
-                    if (quizType.equals("ChooseFour")) {
+                    if (quizType.equals("MCQuiz")) {
                         solve3.setText("퀴즈3 답안3입니다.");
                         solve4.setText("퀴즈3 답안4입니다.");
                     }
@@ -145,10 +111,10 @@ public class SolveQuizActivity extends BaseActivity {
                 break;
             case "QuizFour":
                 question.setText("퀴즈4입니다.");
-                if (quizType.equals("OX") | quizType.equals("ChooseFour")) {
+                if (quizType.equals("OX") | quizType.equals("MCQuiz")) {
                     solve1.setText("퀴즈4 답안1입니다.");
                     solve2.setText("퀴즈4 답안2입니다.");
-                    if (quizType.equals("ChooseFour")) {
+                    if (quizType.equals("MCQuiz")) {
                         solve3.setText("퀴즈4 답안3입니다.");
                         solve4.setText("퀴즈4 답안4입니다.");
                     }
@@ -156,10 +122,10 @@ public class SolveQuizActivity extends BaseActivity {
                 break;
             case "QuizFive":
                 question.setText("퀴즈5입니다.");
-                if (quizType.equals("OX") | quizType.equals("ChooseFour")) {
+                if (quizType.equals("OX") | quizType.equals("MCQuiz")) {
                     solve1.setText("퀴즈5 답안1입니다.");
                     solve2.setText("퀴즈5 답안2입니다.");
-                    if (quizType.equals("ChooseFour")) {
+                    if (quizType.equals("MCQuiz")) {
                         solve3.setText("퀴즈5 답안3입니다.");
                         solve4.setText("퀴즈5 답안4입니다.");
                     }
@@ -187,6 +153,97 @@ public class SolveQuizActivity extends BaseActivity {
         });
     }
 
+    private void getQuizFromDB(String name, String type) {
+        // DB에서 문제를 갖고옴 (현재는 테스트로 등록해놓은 문제를 갖고오도록 설정)
+        currentQuestionNum = 1;
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        String path = type + "/" + name + "/";
+        switch (type) {
+            case "SAQuiz":
+                DatabaseReference descriptions = db.getReference(path + "descriptions");
+                DatabaseReference answers = db.getReference(path + "answers");
+                descriptions.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot snap: snapshot.getChildren()) {
+                            Log.d("SolveQuizActivity", "ValueEventListener1 : "+ snap.getValue());
+                            des.add(snap.getValue().toString());
+                            Log.d("SolveQuizActivity", "arrayTest1 : " + des);
+                            countOfQuestion += 1;
+                            Log.d("SolveQuizActivity", "countOfQuestion : " + countOfQuestion);
+                        }
+                        question.setText(des.get(currentQuestionNum-1).toString());
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                answers.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot snap: snapshot.getChildren()) {
+                            Log.d("SolveQuizActivity", "ValueEventListener2 : "+ snap.getValue());
+                            ans.add(snap.getValue().toString());
+                            Log.d("SolveQuizActivity", "arrayTest2 : " + ans);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                break;
+            case "MCQuiz":
+                DatabaseReference info = db.getReference(path + "questions");
+                info.addValueEventListener(new ValueEventListener() {
+                    int quizNum = 0;
+                    DatabaseReference info2;
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot snap: snapshot.getChildren()) {
+                            info2 = db.getReference(path + "questions/" + quizNum);
+                            info2.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot snap2: snapshot.getChildren()) {
+                                        Log.d("SolveQuizActivity", "ValueEventListener1 : "+ snap2.getValue());
+                                        quizInfo.add(snap2.getValue().toString());
+                                        Log.d("SolveQuizActivity", "arrayTest1 : " + quizInfo);
+                                        Log.d("SolveQuizActivity", "countOfQuestion : " + countOfQuestion);
+                                    }
+                                    // DB에서 퀴즈들을 갖고왔을 때 적용하도록 하기 위해 설정
+                                    // 이렇게 하지 않을 경우 빈 리스트로 적용하여 프로그램이 비정상종료됨
+                                    if (quizInfo.size() == 6) {
+                                        question.setText(quizInfo.get(5 + 6 * (currentQuestionNum - 1)));
+                                        answerSettingMCQuiz(currentQuestionNum - 1);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                            countOfQuestion += 1;
+                            quizNum += 1;
+                        }
+                        Log.d("SolveQuizActivity", "arrayTest2(out of for) : " + quizInfo);
+                        //question.setText(quizInfo.get(5 + 6 * (currentQuestionNum-1)));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                break;
+        }
+        // 경로 -> 퀴즈타입/퀴즈명/설명(답안)
+
+    }
     // 퀴즈 타입 별 세팅
     private void quizTypeSetting(String quiz) {
         switch(quiz) {
@@ -217,7 +274,7 @@ public class SolveQuizActivity extends BaseActivity {
                     }
                 });
                 break;
-            case "Short":
+            case "SAQuiz":
                 setContentView(R.layout.activity_solvequiz_short);
                 answer = findViewById(R.id.answer);
                 button = (Button) findViewById(R.id.submit);
@@ -225,19 +282,24 @@ public class SolveQuizActivity extends BaseActivity {
                     @Override
                     public void onClick(View view) {
                         // 문제가 맞을 경우 -> 정답 + 1
-                        if (answer.getText().equals(ans.get(currentQuestionNum-1).toString())) {
+                        String writeAnswer = answer.getText().toString();
+                        String correctAnswer = ans.get(currentQuestionNum-1);
+                        Log.d("SolveQuizActivity", "Write Answer : "+ writeAnswer);
+                        Log.d("SolveQuizActivity", "Correct Answer : "+ correctAnswer);
+                        if (writeAnswer.equals(correctAnswer)) {
                             isCorrect += 1;
-                            answer.setText("");
                         }
-                        // 현재 문제가
+                        answer.setText(null);
+                        // 현재 문제가 마지막 문제가 아닐 경우
                         if (countOfQuestion > currentQuestionNum) {
                             question.setText(des.get(currentQuestionNum).toString());
                             currentQuestionNum += 1;
                             quizNum.setText(currentQuestionNum + ".");
                         }
+                        // 마지막인 경우
                         else {
                             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                            intent.putExtra("quizName", "테스트문제");
+                            intent.putExtra("quizName", quizName);
                             intent.putExtra("isCorrect", isCorrect);
                             intent.putExtra("numOfQuestion", countOfQuestion);
                             startActivityForResult(intent, 1);
@@ -251,71 +313,78 @@ public class SolveQuizActivity extends BaseActivity {
                 solve2 = findViewById(R.id.solve2);
                 solve3 = findViewById(R.id.solve3);
                 solve4 = findViewById(R.id.solve4);
-                button = (Button) solve1;
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(getApplicationContext(), "Solve1", Toast.LENGTH_SHORT).show();
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        intent.putExtra("isCorrect", "True");
-                        intent.putExtra("QuizType", quiz);
-                        startActivityForResult(intent, 1);
-                    }
-                });
-                button = (Button) solve2;
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(getApplicationContext(), "Solve2", Toast.LENGTH_SHORT).show();
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        intent.putExtra("isCorrect", "False");
-                        intent.putExtra("QuizType", quiz);
-                        startActivityForResult(intent, 1);
-                    }
-                });
-                button = (Button) solve3;
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(getApplicationContext(), "Solve3", Toast.LENGTH_SHORT).show();
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        intent.putExtra("isCorrect", "False");
-                        intent.putExtra("QuizType", quiz);
-                        startActivityForResult(intent, 1);
-                    }
-                });
-                button = (Button) solve4;
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(getApplicationContext(), "Solve4", Toast.LENGTH_SHORT).show();
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        intent.putExtra("isCorrect", "False");
-                        intent.putExtra("QuizType", quiz);
-                        startActivityForResult(intent, 1);
-                    }
-                });
                 break;
         }
     }
+    private void isLastMCQuiz() {
+        if (countOfQuestion > currentQuestionNum) {
+            question.setText(quizInfo.get(5+6*(currentQuestionNum)).toString());
+            currentQuestionNum += 1;
+            quizNum.setText(currentQuestionNum + ".");
+            answerSettingMCQuiz(currentQuestionNum-1);
+        }
+        else
+        {
+            Log.d("SolveQuizActivity", "isCorrect : "+ isCorrect);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.putExtra("quizName", quizName);
+            intent.putExtra("isCorrect", isCorrect);
+            intent.putExtra("numOfQuestion", countOfQuestion);
+            startActivityForResult(intent, 1);
+        }
 
+    }
 
     // 퀴즈 답안 세팅, SQL 적용하면서 사용할 예정(현재는 사용하지 않았음)
-    private void quizSetting(String quiz) {
-        switch(quiz) {
-            case "OX":
-                solve1.setText("O");
-                solve2.setText("X");
-                break;
-            case "ChooseFour":
-                solve1.setText("답안1");
-                solve2.setText("답안2");
-                solve3.setText("답안3");
-                solve4.setText("답안4");
-                break;
-            default:
-                break;
-        }
+    private void answerSettingMCQuiz(int num) {
+        int randNum = (int)(Math.random()*4);
+        solve1.setText(quizInfo.get((0+randNum)%4+6*num));
+        solve2.setText(quizInfo.get((1+randNum)%4+6*num));
+        solve3.setText(quizInfo.get((2+randNum)%4+6*num));
+        solve4.setText(quizInfo.get((3+randNum)%4+6*num));
+        Log.d("SolveQuizActivity", "randNum : "+ randNum);
+
+        button = (Button) solve1;
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Solve1", Toast.LENGTH_SHORT).show();
+                if (randNum == 0)
+                    isCorrect += 1;
+                // 현재 퀴즈가 마지막 퀴즈일 경우
+                isLastMCQuiz();
+            }
+        });
+        button = (Button) solve2;
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Solve2", Toast.LENGTH_SHORT).show();
+                if (randNum == 3)
+                    isCorrect += 1;
+                isLastMCQuiz();
+            }
+        });
+        button = (Button) solve3;
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Solve3", Toast.LENGTH_SHORT).show();
+                if (randNum == 2)
+                    isCorrect += 1;
+                isLastMCQuiz();
+            }
+        });
+        button = (Button) solve4;
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Solve4", Toast.LENGTH_SHORT).show();
+                if (randNum == 1)
+                    isCorrect += 1;
+                isLastMCQuiz();
+            }
+        });
     }
 
     // 결과 화면에서 선택하는 것에 따라 처리내용 변경하기 위한 함수
@@ -324,9 +393,19 @@ public class SolveQuizActivity extends BaseActivity {
         if (resultCode == 1)
             // 홈으로 가기 버튼을 눌렀을 경우 -> 문제 풀기 액티비티 종료
             finish();
-        else if (resultCode == 2)
+        else if (resultCode == 2) {
             // 다시 하기 버튼을 눌렀을 경우 -> 문제 풀기 액티비티 유지
             // 문제 세팅함수를 여기에서 다시 실행시키면 될 것으로 보여짐
-            Toast.makeText(getApplicationContext(), "테스트", Toast.LENGTH_SHORT).show();
+            currentQuestionNum = 1;
+            isCorrect = 0;
+            if (quizType.equals("MCQuiz")) {
+                question.setText(quizInfo.get(5).toString());
+                answerSettingMCQuiz(0);
+            }
+            else if (quizType.equals("SAQuiz")) {
+                question.setText(des.get(0).toString());
+            }
+            quizNum.setText(currentQuestionNum + ".");
+        }
     }
 }

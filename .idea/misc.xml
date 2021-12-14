@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProject/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_quiz_add.xml" value="0.25" />
+        <entry key="..\:/AndroidStudioProject/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_quiz_result.xml" value="0.20104166666666667" />
+        <entry key="..\:/AndroidStudioProject/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_signup.xml" value="0.20104166666666667" />
         <entry key="..\:/AndroidStudioProject/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_solvequiz.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProject/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_solvequiz_ox.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProject/Mobile-Programming-ChipQuiz/app/src/main/res/layout/activity_solvequiz_short.xml" value="0.1" />

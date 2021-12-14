@@ -69,24 +69,24 @@ public class MainActivity extends BaseActivity {
         intent = new Intent(MainActivity.this, SolveQuizActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         if (viewId == R.id.quizOne) {
-            intent.putExtra("QuizName", "QuizOne");
-            intent.putExtra("QuizType", "ChooseFour");
+            intent.putExtra("QuizName", "한국현대사");
+            intent.putExtra("QuizType", "MCQuiz");
         }
         else if (viewId == R.id.quizTwo) {
             intent.putExtra("QuizName", "QuizTwo");
             intent.putExtra("QuizType", "OX");
         }
         else if (viewId == R.id.quizThree) {
-            intent.putExtra("QuizName", "QuizThree");
-            intent.putExtra("QuizType", "Short");
+            intent.putExtra("QuizName", "testProblem");
+            intent.putExtra("QuizType", "SAQuiz");
         }
         else if (viewId == R.id.quizFour) {
             intent.putExtra("QuizName", "QuizFour");
-            intent.putExtra("QuizType", "ChooseFour");
+            intent.putExtra("QuizType", "MCQuiz");
         }
         else if (viewId == R.id.quizFive) {
             intent.putExtra("QuizName", "QuizFive");
-            intent.putExtra("QuizType", "ChooseFour");
+            intent.putExtra("QuizType", "MCQuiz");
         }
         startActivity(intent);
     }
