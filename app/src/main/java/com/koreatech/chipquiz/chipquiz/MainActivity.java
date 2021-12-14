@@ -9,17 +9,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends BaseActivity {
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
+public class MainActivity extends AppCompatActivity {
 
     // 카테고리, 정렬 스피너
     private Spinner spinner_category;
     private Spinner spinner_orderby;
     Intent intent;
+
 
     //sdfgsdf
 
@@ -28,12 +34,10 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 앱바 이름 바꾸기
-        ActionBar bar = getSupportActionBar();
-        bar.setTitle("퀴즈 홈");
-
         spinner_category = (Spinner)findViewById(R.id.spinner_category);
         spinner_orderby = (Spinner)findViewById(R.id.spinner_orderby);
+
+        getMonthRanking(); //현재 날짜 받아오는 함수
 
         spinner_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             // 카테고리 스피너 선택 시 동작되는 함수(프로그램 최초 실행 시 바로 실행됨)
@@ -60,6 +64,39 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
+    // 액션바 관련 함수
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_bar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // 액션바 관련 함수
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch(item.getItemId()) {
+            case R.id.action_login:
+                intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_register:
+                intent = new Intent(this, SignupActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_quizCreate:
+                intent = new Intent(this, QuizListActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_mypage:
+                intent = new Intent(this, MypageActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     // 퀴즈 이동 버튼
     public void onClick(View view) {
@@ -69,25 +106,33 @@ public class MainActivity extends BaseActivity {
         intent = new Intent(MainActivity.this, SolveQuizActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         if (viewId == R.id.quizOne) {
-            intent.putExtra("QuizName", "한국현대사");
-            intent.putExtra("QuizType", "MCQuiz");
+            intent.putExtra("QuizName", "QuizOne");
+            intent.putExtra("QuizType", "ChooseFour");
         }
         else if (viewId == R.id.quizTwo) {
             intent.putExtra("QuizName", "QuizTwo");
             intent.putExtra("QuizType", "OX");
         }
         else if (viewId == R.id.quizThree) {
-            intent.putExtra("QuizName", "testProblem");
-            intent.putExtra("QuizType", "SAQuiz");
+            intent.putExtra("QuizName", "QuizThree");
+            intent.putExtra("QuizType", "Short");
         }
         else if (viewId == R.id.quizFour) {
             intent.putExtra("QuizName", "QuizFour");
-            intent.putExtra("QuizType", "MCQuiz");
+            intent.putExtra("QuizType", "ChooseFour");
         }
         else if (viewId == R.id.quizFive) {
             intent.putExtra("QuizName", "QuizFive");
-            intent.putExtra("QuizType", "MCQuiz");
+            intent.putExtra("QuizType", "ChooseFour");
         }
         startActivity(intent);
+    }
+    public void getMonthRanking(){  //현재 날짜의 랭킹 받아옴
+        long now = System.currentTimeMillis();
+        Date mDate= new Date(now);
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
+        String month=monthFormat.format(mDate);
+        TextView monthRanking= (TextView)findViewById(R.id.question);
+        monthRanking.setText(month+"월 랭킹");
     }
 }
