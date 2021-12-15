@@ -62,17 +62,17 @@ public class QuizListActivity extends BaseActivity {
 
     public void onButtonClick(View view) {
         Intent intent;
+        intent = new Intent(this, QuizAddActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
         switch (view.getId()) {
             case R.id.button_edit:
                 String key = view.getTag(R.id.quizName).toString();
                 String type = view.getTag(R.id.quizType).toString();
-                intent = new Intent(this, QuizAddActivity.class);
                 intent.putExtra("key", key);
                 intent.putExtra("type", type);
                 startActivity(intent);
                 break;
             case R.id.buttonAddQuiz:
-                intent = new Intent(this, QuizAddActivity.class);
                 startActivity(intent);
                 break;
         }

@@ -205,14 +205,17 @@ public class QuizAddActivity extends BaseActivity {
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {}
             });
+
+            Spinner typeList = findViewById(R.id.quiz_type_list);
             switch (type) {
                 case "MC":
+                    typeList.setSelection(0);
                     databaseReference.child("MCQuiz").orderByKey().equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot mcds : snapshot.getChildren()) {
+                            for (DataSnapshot ds : snapshot.getChildren()) {
                                 clearQuizForm();
-                                for (DataSnapshot question : mcds.child("questions").getChildren()) {
+                                for (DataSnapshot question : ds.child("questions").getChildren()) {
                                     View form = addQuizForm(R.layout.quiz_multiple_form);
 
                                     EditText content = form.findViewById(R.id.quiz_content_input);
@@ -236,15 +239,60 @@ public class QuizAddActivity extends BaseActivity {
                     });
                     break;
                 case "SA":
+                    typeList.setSelection(1);
+                    databaseReference.child("SAQuiz").orderByKey().equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot ds : snapshot.getChildren()) {
+                                clearQuizForm();
+                                for (DataSnapshot question : ds.child("questions").getChildren()) {
+                                    View form = addQuizForm(R.layout.quiz_single_form);
+
+                                    EditText content = form.findViewById(R.id.quiz_content_input);
+                                    EditText answer = form.findViewById(R.id.quiz_answer_input);
+                                    EditText comment = form.findViewById(R.id.quiz_commentary_input);
+
+                                    content.setText(question.child("description").getValue(String.class));
+                                    answer.setText(question.child("answer").getValue(String.class));
+                                    comment.setText(question.child("comment").getValue(String.class));
+                                }
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {}
+                    });
                     break;
                 case "OX":
+                    typeList.setSelection(2);
+                    databaseReference.child("OXQuiz").orderByKey().equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot ds : snapshot.getChildren()) {
+                                clearQuizForm();
+                                for (DataSnapshot question : ds.child("questions").getChildren()) {
+                                    View form = addQuizForm(R.layout.quiz_ox_form);
+
+                                    EditText content = form.findViewById(R.id.quiz_content_input);
+                                    EditText answer = form.findViewById(R.id.quiz_answer_input01);
+                                    EditText wrong = form.findViewById(R.id.quiz_answer_input02);
+                                    EditText comment = form.findViewById(R.id.quiz_commentary_input);
+
+                                    content.setText(question.child("description").getValue(String.class));
+                                    answer.setText(question.child("answer").getValue(String.class));
+                                    wrong.setText(question.child("wrong").getValue(String.class));
+                                    comment.setText(question.child("comment").getValue(String.class));
+                                }
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {}
+                    });
                     break;
             }
         }
     }
 
     public void onButtonClick(View view) {
-        Intent intent;
         switch(view.getId()) {
             case R.id.buttonAddQuiz:
                 addQuizForm(selectedForm);
@@ -309,8 +357,8 @@ public class QuizAddActivity extends BaseActivity {
             return;
         }
 
-
         Intent intent = new Intent(this, QuizListActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
 
