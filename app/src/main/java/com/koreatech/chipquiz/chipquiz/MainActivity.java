@@ -74,7 +74,7 @@ public class MainActivity extends BaseActivity {
         }
         else if (viewId == R.id.quizTwo) {
             intent.putExtra("QuizName", "QuizTwo");
-            intent.putExtra("QuizType", "OX");
+            intent.putExtra("QuizType", "OXQuiz");
         }
         else if (viewId == R.id.quizThree) {
             intent.putExtra("QuizName", "testProblem");

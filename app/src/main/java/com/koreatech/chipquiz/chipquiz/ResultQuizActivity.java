@@ -86,7 +86,7 @@ public class ResultQuizActivity extends BaseActivity {
         quizType = getIntent().getStringExtra("QuizType");
         quizName = findViewById(R.id.quizName);
         result1 = findViewById(R.id.result1);
-        score = 100 / questionCount * correctQuiz;
+        score = 100.0f / questionCount * correctQuiz;
         sdfm = new SimpleDateFormat("yyyy년MM월dd일");
         date = sdfm.format(new Date());
         scoreView = findViewById(R.id.Score);

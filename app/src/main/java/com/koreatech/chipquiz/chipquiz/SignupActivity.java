@@ -280,10 +280,18 @@ public class SignupActivity extends BaseActivity {
     }
 
     @Override
+
     protected void onDestroy() {
-        if (!FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
-            FirebaseAuth.getInstance().getCurrentUser().delete();
-        }
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null)
+
+            if (!FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
+
+                FirebaseAuth.getInstance().getCurrentUser().delete();
+
+            }
+
         super.onDestroy();
+
     }
 }

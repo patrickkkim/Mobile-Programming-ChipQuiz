@@ -160,35 +160,40 @@ public class SolveQuizActivity extends BaseActivity {
         currentQuestionNum = 1;
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         String path = type + "/" + name + "/";
+        DatabaseReference info = db.getReference(path + "questions");
         switch (type) {
             case "SAQuiz":
-                DatabaseReference descriptions = db.getReference(path + "descriptions");
-                DatabaseReference answers = db.getReference(path + "answers");
-                descriptions.addValueEventListener(new ValueEventListener() {
+                info.addValueEventListener(new ValueEventListener() {
+                    int quizNum = 0;
+                    DatabaseReference info2;
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot snap: snapshot.getChildren()) {
-                            Log.d("SolveQuizActivity", "ValueEventListener1 : "+ snap.getValue());
-                            des.add(snap.getValue().toString());
-                            Log.d("SolveQuizActivity", "arrayTest1 : " + des);
+                            Log.d("SolveQuizActivity", "test : "+ snap.getChildren());
+                            info2 = db.getReference(path + "questions/" + quizNum);
+                            info2.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot snap2: snapshot.getChildren()) {
+                                        Log.d("SolveQuizActivity", "ValueEventListener1 : "+ snap2.getValue());
+                                        quizInfo.add(snap2.getValue().toString());
+                                        Log.d("SolveQuizActivity", "arrayTest1 : " + quizInfo);
+                                        Log.d("SolveQuizActivity", "countOfQuestion : " + countOfQuestion);
+                                    }
+                                    // DB에서 퀴즈들을 갖고왔을 때 적용하도록 하기 위해 설정
+                                    // 이렇게 하지 않을 경우 빈 리스트로 적용하여 프로그램이 비정상종료됨
+                                    if (quizInfo.size() == 3) {
+                                        question.setText(quizInfo.get(2 + 3 * (currentQuestionNum - 1)));
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                             countOfQuestion += 1;
-                            Log.d("SolveQuizActivity", "countOfQuestion : " + countOfQuestion);
-                        }
-                        question.setText(des.get(currentQuestionNum-1).toString());
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-                answers.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot snap: snapshot.getChildren()) {
-                            Log.d("SolveQuizActivity", "ValueEventListener2 : "+ snap.getValue());
-                            ans.add(snap.getValue().toString());
-                            Log.d("SolveQuizActivity", "arrayTest2 : " + ans);
+                            quizNum += 1;
                         }
                     }
 
@@ -199,7 +204,6 @@ public class SolveQuizActivity extends BaseActivity {
                 });
                 break;
             case "MCQuiz":
-                DatabaseReference info = db.getReference(path + "questions");
                 info.addValueEventListener(new ValueEventListener() {
                     int quizNum = 0;
                     DatabaseReference info2;
@@ -283,7 +287,7 @@ public class SolveQuizActivity extends BaseActivity {
                     public void onClick(View view) {
                         // 문제가 맞을 경우 -> 정답 + 1
                         String writeAnswer = answer.getText().toString();
-                        String correctAnswer = ans.get(currentQuestionNum-1);
+                        String correctAnswer = quizInfo.get(0 + 3 * (currentQuestionNum - 1));
                         Log.d("SolveQuizActivity", "Write Answer : "+ writeAnswer);
                         Log.d("SolveQuizActivity", "Correct Answer : "+ correctAnswer);
                         if (writeAnswer.equals(correctAnswer)) {
@@ -294,7 +298,7 @@ public class SolveQuizActivity extends BaseActivity {
                         answer.setText(null);
                         // 현재 문제가 마지막 문제가 아닐 경우
                         if (countOfQuestion > currentQuestionNum) {
-                            question.setText(des.get(currentQuestionNum).toString());
+                            question.setText(quizInfo.get(2+3*(currentQuestionNum)).toString());
                             currentQuestionNum += 1;
                             quizNum.setText(currentQuestionNum + ".");
                         }
