@@ -131,34 +131,6 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="15dp"
-                android:text="내 최대 점수: 000점"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/result1" />
-
-            <TextView
-                android:id="@+id/result3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="15dp"
-                android:text="내 평균 점수: 000점"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/result2" />
-
-            <TextView
-                android:id="@+id/result4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="15dp"
                 android:layout_marginBottom="35dp"
                 android:text="응시자 평균 점수: 000점"
                 android:textSize="20sp"
@@ -166,7 +138,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/result3" />
+                app:layout_constraintTop_toBottomOf="@+id/result1" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

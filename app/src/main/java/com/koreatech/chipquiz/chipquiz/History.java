@@ -11,9 +11,9 @@ public class History {
 
     public long score;
     public boolean Likes = false;
-    public ArrayList<Long> NotSolve = new ArrayList<>();
+    public ArrayList<Integer> NotSolve = new ArrayList<>();
 
-    public History(String problem, String uid, String date, boolean like, List<Long> notsolve, Long score) {
+    public History(String problem, String uid, String date, boolean like, ArrayList<Integer> notsolve, Long score) {
         this.name = problem;
         this.uid = uid;
         this.Likes = like;

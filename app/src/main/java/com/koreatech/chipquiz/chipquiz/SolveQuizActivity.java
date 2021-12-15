@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-// 코드가 매우 더럽습니다. 추후 정리하도록 하겠습니다. (__)
 public class SolveQuizActivity extends BaseActivity {
 
     TextView question;
@@ -42,11 +41,7 @@ public class SolveQuizActivity extends BaseActivity {
     Button button;
     Intent intent;
 
-    // 각 답안을 저장하는 리스트
-    List<String> ans = new ArrayList<>();
-    // 문제들을 저장하는 리스트
-    List<String> des = new ArrayList<>();
-    // MCQuiz용 리스트
+    // 문제를 DB에서 갖고오는 리스트
     List<String> quizInfo = new ArrayList<>();
     // 못푼 문제 번호 넣는 리스트
     ArrayList<Integer> notSolve = new ArrayList<>();
@@ -77,80 +72,12 @@ public class SolveQuizActivity extends BaseActivity {
         // 입력받은 문제에 따른 문제 내용 변경
         question = findViewById(R.id.question);
 
-        switch(getIntent().getStringExtra("QuizName")) {
-            case "QuizOne":
-                question.setText("퀴즈1입니다.");
-                if (quizType.equals("OXQuiz") | quizType.equals("MCQuiz")) {
-                    solve1.setText("퀴즈1 답안1입니다.");
-                    solve2.setText("퀴즈1 답안2입니다.");
-                    if (quizType.equals("MCQuiz")) {
-                        solve3.setText("퀴즈1 답안3입니다.");
-                        solve4.setText("퀴즈1 답안4입니다.");
-                    }
-                }
-                break;
-            case "QuizTwo":
-                question.setText("퀴즈2입니다.");
-                if (quizType.equals("OXQuiz") | quizType.equals("MCQuiz")) {
-                    solve1.setText("퀴즈2 답안1입니다.");
-                    solve2.setText("퀴즈2 답안2입니다.");
-                    if (quizType.equals("MCQuiz")) {
-                        solve3.setText("퀴즈2 답안3입니다.");
-                        solve4.setText("퀴즈2 답안4입니다.");
-                    }
-                }
-                break;
-            case "QuizThree":
-                question.setText("퀴즈3입니다.");
-                if (quizType.equals("OX") | quizType.equals("MCQuiz")) {
-                    solve1.setText("퀴즈3 답안1입니다.");
-                    solve2.setText("퀴즈3 답안2입니다.");
-                    if (quizType.equals("MCQuiz")) {
-                        solve3.setText("퀴즈3 답안3입니다.");
-                        solve4.setText("퀴즈3 답안4입니다.");
-                    }
-                }
-                break;
-            case "QuizFour":
-                question.setText("퀴즈4입니다.");
-                if (quizType.equals("OX") | quizType.equals("MCQuiz")) {
-                    solve1.setText("퀴즈4 답안1입니다.");
-                    solve2.setText("퀴즈4 답안2입니다.");
-                    if (quizType.equals("MCQuiz")) {
-                        solve3.setText("퀴즈4 답안3입니다.");
-                        solve4.setText("퀴즈4 답안4입니다.");
-                    }
-                }
-                break;
-            case "QuizFive":
-                question.setText("퀴즈5입니다.");
-                if (quizType.equals("OX") | quizType.equals("MCQuiz")) {
-                    solve1.setText("퀴즈5 답안1입니다.");
-                    solve2.setText("퀴즈5 답안2입니다.");
-                    if (quizType.equals("MCQuiz")) {
-                        solve3.setText("퀴즈5 답안3입니다.");
-                        solve4.setText("퀴즈5 답안4입니다.");
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-
-        // 나가기, 신고 버튼
+        // 나가기 버튼
         button = (Button) findViewById(R.id.exit);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
-                //Toast.makeText(getApplicationContext(), "Exit", Toast.LENGTH_SHORT).show();
-            }
-        });
-        button = (Button) findViewById(R.id.report);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "미구현 상태입니다.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -286,7 +213,6 @@ public class SolveQuizActivity extends BaseActivity {
                 });
                 break;
         }
-        // 경로 -> 퀴즈타입/퀴즈명/설명(답안)
     }
     // 퀴즈 타입 별 세팅
     private void quizTypeSetting(String quiz) {
@@ -398,7 +324,7 @@ public class SolveQuizActivity extends BaseActivity {
                 if (randNum == 0)
                     isCorrect += 1;
                 else
-                    notSolve.add(currentQuestionNum);
+                    notSolve.add(currentQuestionNum-1);
                 isLastOXQuiz();
             }
         });
@@ -409,7 +335,7 @@ public class SolveQuizActivity extends BaseActivity {
                 if (randNum == 1)
                     isCorrect += 1;
                 else
-                    notSolve.add(currentQuestionNum);
+                    notSolve.add(currentQuestionNum-1);
                 isLastOXQuiz();
             }
         });
@@ -431,7 +357,7 @@ public class SolveQuizActivity extends BaseActivity {
                 if (randNum == 0)
                     isCorrect += 1;
                 else
-                    notSolve.add(currentQuestionNum);
+                    notSolve.add(currentQuestionNum-1);
                 // 마지막 퀴즈인지 판단, 아닐 경우 다음 문제 세팅
                 isLastMCQuiz();
             }
@@ -444,7 +370,7 @@ public class SolveQuizActivity extends BaseActivity {
                 if (randNum == 3)
                     isCorrect += 1;
                 else
-                    notSolve.add(currentQuestionNum);
+                    notSolve.add(currentQuestionNum-1);
                 isLastMCQuiz();
             }
         });
@@ -456,7 +382,7 @@ public class SolveQuizActivity extends BaseActivity {
                 if (randNum == 2)
                     isCorrect += 1;
                 else
-                    notSolve.add(currentQuestionNum);
+                    notSolve.add(currentQuestionNum-1);
                 isLastMCQuiz();
             }
         });
@@ -468,7 +394,7 @@ public class SolveQuizActivity extends BaseActivity {
                 if (randNum == 1)
                     isCorrect += 1;
                 else
-                    notSolve.add(currentQuestionNum);
+                    notSolve.add(currentQuestionNum-1);
                 isLastMCQuiz();
             }
         });
@@ -490,7 +416,7 @@ public class SolveQuizActivity extends BaseActivity {
                 answerSettingMCQuiz(0);
             }
             else if (quizType.equals("SAQuiz")) {
-                question.setText(des.get(0).toString());
+                question.setText(quizInfo.get(2).toString());
             }
             else if (quizType.equals("OXQuiz")) {
                 question.setText(quizInfo.get(2).toString());
