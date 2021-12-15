@@ -80,7 +80,7 @@ public class SolveQuizActivity extends BaseActivity {
         switch(getIntent().getStringExtra("QuizName")) {
             case "QuizOne":
                 question.setText("퀴즈1입니다.");
-                if (quizType.equals("OX") | quizType.equals("MCQuiz")) {
+                if (quizType.equals("OXQuiz") | quizType.equals("MCQuiz")) {
                     solve1.setText("퀴즈1 답안1입니다.");
                     solve2.setText("퀴즈1 답안2입니다.");
                     if (quizType.equals("MCQuiz")) {
@@ -91,7 +91,7 @@ public class SolveQuizActivity extends BaseActivity {
                 break;
             case "QuizTwo":
                 question.setText("퀴즈2입니다.");
-                if (quizType.equals("OX") | quizType.equals("MCQuiz")) {
+                if (quizType.equals("OXQuiz") | quizType.equals("MCQuiz")) {
                     solve1.setText("퀴즈2 답안1입니다.");
                     solve2.setText("퀴즈2 답안2입니다.");
                     if (quizType.equals("MCQuiz")) {
@@ -244,39 +244,57 @@ public class SolveQuizActivity extends BaseActivity {
                     }
                 });
                 break;
+            case "OXQuiz":
+                info.addValueEventListener(new ValueEventListener() {
+                    int quizNum = 0;
+                    DatabaseReference info2;
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot snap: snapshot.getChildren()) {
+                            info2 = db.getReference(path + "questions/" + quizNum);
+                            info2.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot snap2: snapshot.getChildren()) {
+                                        Log.d("SolveQuizActivity", "ValueEventListener1 : "+ snap2.getValue());
+                                        quizInfo.add(snap2.getValue().toString());
+                                        Log.d("SolveQuizActivity", "arrayTest1 : " + quizInfo);
+                                        Log.d("SolveQuizActivity", "countOfQuestion : " + countOfQuestion);
+                                    }
+                                    // DB에서 퀴즈들을 갖고왔을 때 적용하도록 하기 위해 설정
+                                    // 이렇게 하지 않을 경우 빈 리스트로 적용하여 프로그램이 비정상종료됨
+                                    if (quizInfo.size() == 4) {
+                                        question.setText(quizInfo.get(2 + 4 * (currentQuestionNum - 1)));
+                                        answerSettingOXQuiz(currentQuestionNum - 1);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                            countOfQuestion += 1;
+                            quizNum += 1;
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                break;
         }
         // 경로 -> 퀴즈타입/퀴즈명/설명(답안)
-
     }
     // 퀴즈 타입 별 세팅
     private void quizTypeSetting(String quiz) {
         switch(quiz) {
-            case "OX":
+            case "OXQuiz":
                 setContentView(R.layout.activity_solvequiz_ox);
                 solve1 = findViewById(R.id.solve1);
                 solve2 = findViewById(R.id.solve2);
-                button = (Button) solve1;
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(getApplicationContext(), "Solve1", Toast.LENGTH_SHORT).show();
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        intent.putExtra("isCorrect", "False");
-                        intent.putExtra("QuizType", quiz);
-                        startActivityForResult(intent, 1);
-                    }
-                });
-                button = (Button) solve2;
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(getApplicationContext(), "Solve2", Toast.LENGTH_SHORT).show();
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        intent.putExtra("isCorrect", "True");
-                        intent.putExtra("QuizType", quiz);
-                        startActivityForResult(intent, 1);
-                    }
-                });
                 break;
             case "SAQuiz":
                 setContentView(R.layout.activity_solvequiz_short);
@@ -342,7 +360,61 @@ public class SolveQuizActivity extends BaseActivity {
         }
     }
 
-    // 퀴즈 답안 세팅, SQL 적용하면서 사용할 예정(현재는 사용하지 않았음)
+    private void isLastOXQuiz() {
+        if (countOfQuestion > currentQuestionNum) {
+            question.setText(quizInfo.get(2+4*currentQuestionNum).toString());
+            currentQuestionNum += 1;
+            quizNum.setText(currentQuestionNum + ",");
+            answerSettingOXQuiz(currentQuestionNum-1);
+        }
+        else
+        {
+            Log.d("SolveQuizActivity", "isCorrect : "+ isCorrect);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.putExtra("quizName", quizName);
+            intent.putExtra("isCorrect", isCorrect);
+            intent.putExtra("numOfQuestion", countOfQuestion);
+            intent.putIntegerArrayListExtra("notSolve", notSolve);
+            startActivityForResult(intent, 1);
+        }
+    }
+
+    private void answerSettingOXQuiz(int num) {
+        int randNum = (int)(Math.random()*2);
+        switch (randNum) {
+            case 0:
+                solve1.setText(quizInfo.get(0+4*num));
+                solve2.setText(quizInfo.get(3+4*num));
+                break;
+            default:
+                solve1.setText(quizInfo.get(3+4*num));
+                solve2.setText(quizInfo.get(0+4*num));
+                break;
+        }
+        button = (Button)solve1;
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (randNum == 0)
+                    isCorrect += 1;
+                else
+                    notSolve.add(currentQuestionNum);
+                isLastOXQuiz();
+            }
+        });
+        button = (Button)solve2;
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (randNum == 1)
+                    isCorrect += 1;
+                else
+                    notSolve.add(currentQuestionNum);
+                isLastOXQuiz();
+            }
+        });
+
+    }
     private void answerSettingMCQuiz(int num) {
         int randNum = (int)(Math.random()*4);
         solve1.setText(quizInfo.get((0+randNum)%4+6*num));
@@ -419,6 +491,10 @@ public class SolveQuizActivity extends BaseActivity {
             }
             else if (quizType.equals("SAQuiz")) {
                 question.setText(des.get(0).toString());
+            }
+            else if (quizType.equals("OXQuiz")) {
+                question.setText(quizInfo.get(2).toString());
+                answerSettingOXQuiz(0);
             }
             quizNum.setText(currentQuestionNum + ".");
             notSolve.clear();

@@ -73,7 +73,7 @@ public class MainActivity extends BaseActivity {
             intent.putExtra("QuizType", "MCQuiz");
         }
         else if (viewId == R.id.quizTwo) {
-            intent.putExtra("QuizName", "QuizTwo");
+            intent.putExtra("QuizName", "OXTest");
             intent.putExtra("QuizType", "OXQuiz");
         }
         else if (viewId == R.id.quizThree) {
