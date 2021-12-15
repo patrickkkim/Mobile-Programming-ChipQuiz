@@ -232,7 +232,6 @@ public class SolveQuizActivity extends BaseActivity {
                             countOfQuestion += 1;
                             quizNum += 1;
                         }
-                        Log.d("SolveQuizActivity", "arrayTest2(out of for) : " + quizInfo);
                     }
 
                     @Override
@@ -418,6 +417,7 @@ public class SolveQuizActivity extends BaseActivity {
                 question.setText(des.get(0).toString());
             }
             quizNum.setText(currentQuestionNum + ".");
+            notSolve.clear();
         }
     }
 }
