@@ -358,8 +358,10 @@ public class QuizAddActivity extends BaseActivity {
         }
 
         Intent intent = new Intent(this, QuizListActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("success", true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 
     private void submitMC(FirebaseUser user) throws Exception {
@@ -459,6 +461,6 @@ public class QuizAddActivity extends BaseActivity {
     }
 
     private void showMessage(String msg) {
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
 }

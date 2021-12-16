@@ -24,6 +24,6 @@
         <item>우리말</item>
     </string-array>
 
-    <item type="id" name="quizType" />
-    <item type="id" name="quizName" />
+    <item name="quizType" type="id" />
+    <item name="quizName" type="id" />
 </resources>
