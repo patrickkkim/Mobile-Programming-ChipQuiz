@@ -20,7 +20,20 @@ public class User {
             this.category_score.add(0);
         }
     }
+
+    public User(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }
+
 
 /*
 

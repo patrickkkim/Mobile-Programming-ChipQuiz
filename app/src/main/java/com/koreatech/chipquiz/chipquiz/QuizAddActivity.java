@@ -104,21 +104,23 @@ public class QuizAddActivity extends BaseActivity {
     }
 
     @IgnoreExtraProperties
-    public class QuizMetaData {
+    public static class QuizMetaData {
         public int likes = 0;
         public boolean MC = false, OX = false, SA = false;
         public String maker_uid;
         public String description;
         public String name;
         public String category;
+        public String datetime;
 
         public QuizMetaData() {}
 
-        public QuizMetaData(String name, String maker_uid, String description, String category, String type) {
+        public QuizMetaData(String name, String maker_uid, String description, String category, String type, String datetime) {
             this.name = name;
             this.maker_uid = maker_uid;
             this.description = description;
             this.category = category;
+            this.datetime=datetime;
             switch(type) {
                 case "MC":
                     this.MC = true;
@@ -341,7 +343,7 @@ public class QuizAddActivity extends BaseActivity {
         }
 
         Quiz<MCQuestion> quiz = new Quiz(name, questions);
-        QuizMetaData meta = new QuizMetaData(name, user.getUid(), description, category, "MC");
+        QuizMetaData meta = new QuizMetaData(name, user.getUid(), description, category, "MC", "");
         databaseReference.child("MCQuiz").child(name).setValue(quiz);
         databaseReference.child("Quizs").child(name).setValue(meta);
     }
@@ -370,7 +372,7 @@ public class QuizAddActivity extends BaseActivity {
         }
 
         Quiz<MCQuestion> quiz = new Quiz(name, questions);
-        QuizMetaData meta = new QuizMetaData(name, user.getUid(), description, category, "SA");
+        QuizMetaData meta = new QuizMetaData(name, user.getUid(), description, category, "SA","");
         databaseReference.child("SAQuiz").child(name).setValue(quiz);
         databaseReference.child("Quizs").child(name).setValue(meta);
     }
@@ -400,7 +402,7 @@ public class QuizAddActivity extends BaseActivity {
         }
 
         Quiz<OXQuestion> quiz = new Quiz(name, questions);
-        QuizMetaData meta = new QuizMetaData(name, user.getUid(), description, category, "OX");
+        QuizMetaData meta = new QuizMetaData(name, user.getUid(), description, category, "OX","");
         databaseReference.child("OXQuiz").child(name).setValue(quiz);
         databaseReference.child("Quizs").child(name).setValue(meta);
     }

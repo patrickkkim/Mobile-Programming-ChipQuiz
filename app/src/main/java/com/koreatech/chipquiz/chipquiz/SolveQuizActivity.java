@@ -75,65 +75,7 @@ public class SolveQuizActivity extends BaseActivity {
         // 입력받은 문제에 따른 문제 내용 변경
         question = findViewById(R.id.question);
 
-        switch(getIntent().getStringExtra("QuizName")) {
-            case "QuizOne":
-                question.setText("퀴즈1입니다.");
-                if (quizType.equals("OX") | quizType.equals("MCQuiz")) {
-                    solve1.setText("퀴즈1 답안1입니다.");
-                    solve2.setText("퀴즈1 답안2입니다.");
-                    if (quizType.equals("MCQuiz")) {
-                        solve3.setText("퀴즈1 답안3입니다.");
-                        solve4.setText("퀴즈1 답안4입니다.");
-                    }
-                }
-                break;
-            case "QuizTwo":
-                question.setText("퀴즈2입니다.");
-                if (quizType.equals("OX") | quizType.equals("MCQuiz")) {
-                    solve1.setText("퀴즈2 답안1입니다.");
-                    solve2.setText("퀴즈2 답안2입니다.");
-                    if (quizType.equals("MCQuiz")) {
-                        solve3.setText("퀴즈2 답안3입니다.");
-                        solve4.setText("퀴즈2 답안4입니다.");
-                    }
-                }
-                break;
-            case "QuizThree":
-                question.setText("퀴즈3입니다.");
-                if (quizType.equals("OX") | quizType.equals("MCQuiz")) {
-                    solve1.setText("퀴즈3 답안1입니다.");
-                    solve2.setText("퀴즈3 답안2입니다.");
-                    if (quizType.equals("MCQuiz")) {
-                        solve3.setText("퀴즈3 답안3입니다.");
-                        solve4.setText("퀴즈3 답안4입니다.");
-                    }
-                }
-                break;
-            case "QuizFour":
-                question.setText("퀴즈4입니다.");
-                if (quizType.equals("OX") | quizType.equals("MCQuiz")) {
-                    solve1.setText("퀴즈4 답안1입니다.");
-                    solve2.setText("퀴즈4 답안2입니다.");
-                    if (quizType.equals("MCQuiz")) {
-                        solve3.setText("퀴즈4 답안3입니다.");
-                        solve4.setText("퀴즈4 답안4입니다.");
-                    }
-                }
-                break;
-            case "QuizFive":
-                question.setText("퀴즈5입니다.");
-                if (quizType.equals("OX") | quizType.equals("MCQuiz")) {
-                    solve1.setText("퀴즈5 답안1입니다.");
-                    solve2.setText("퀴즈5 답안2입니다.");
-                    if (quizType.equals("MCQuiz")) {
-                        solve3.setText("퀴즈5 답안3입니다.");
-                        solve4.setText("퀴즈5 답안4입니다.");
-                    }
-                }
-                break;
-            default:
-                break;
-        }
+
 
         // 나가기, 신고 버튼
         button = (Button) findViewById(R.id.exit);

@@ -21,6 +21,74 @@ public class Quizs {
         this.description = des;
         this.category = cate;
     }
+
+    public String getTable() {
+        return Table;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getMaker_uid() {
+        return maker_uid;
+    }
+
+    public void setMaker_uid(String maker_uid) {
+        this.maker_uid = maker_uid;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public boolean isSA() {
+        return SA;
+    }
+
+    public void setSA(boolean SA) {
+        this.SA = SA;
+    }
+
+    public boolean isMC() {
+        return MC;
+    }
+
+    public void setMC(boolean MC) {
+        this.MC = MC;
+    }
+
+    public boolean isOX() {
+        return OX;
+    }
+
+    public void setOX(boolean OX) {
+        this.OX = OX;
+    }
+
+    public long getLikes() {
+        return Likes;
+    }
+
+    public void setLikes(long likes) {
+        Likes = likes;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
 
 /*
