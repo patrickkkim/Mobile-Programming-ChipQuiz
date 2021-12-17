@@ -48,9 +48,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
+                    android:padding="18dp"
                     android:background="@drawable/rounded_corner_textinput"
-                    android:hint="제목을 입력하세요."
-                    android:padding="18dp" />
+                    android:hint="제목을 입력하세요." />
 
                 <TextView
                     android:id="@+id/quiz_category"
@@ -67,9 +67,10 @@
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/quiz_category_list"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
-                    android:background="@drawable/textbox" />
+                    android:padding="18dp"
+                    android:background="@drawable/rounded_corner_spinner" />
 
                 <TextView
                     android:id="@+id/explanation"
@@ -96,12 +97,13 @@
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/quiz_type_list"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="200dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="10dp"
-                    android:background="@drawable/textbox" />
+                    android:padding="18dp"
+                    android:background="@drawable/rounded_corner_spinner" />
 
                 <LinearLayout
                     android:id="@+id/quizFormList"
