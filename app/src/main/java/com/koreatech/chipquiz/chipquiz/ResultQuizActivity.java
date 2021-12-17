@@ -58,7 +58,7 @@ public class ResultQuizActivity extends BaseActivity {
     SimpleDateFormat sdfm;
     History history;
     List<String> userHistory = new ArrayList<>();
-    // 플레이한 유저들의 전체 점수 합한 변수
+    // 플레이한 전체 유저들의 점수 합한 변수
     int totalScore = 0;
     // 플레이한 유저의 수
     int playedUser = 0;
@@ -66,6 +66,10 @@ public class ResultQuizActivity extends BaseActivity {
     int currentLikes;
     // 지금 플레이를 끝낸 유저의 누적 점수 확인
     int playedUserScore = 0;
+    // 지금 플레이를 끝낸 유저의 카테고리 누적 점수 확인
+    int playedUserCategoryScore = 0;
+    // 현재 푸는 퀴즈의 카테고리
+    int categoryNum = -1;
 
     private final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private final DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -90,6 +94,7 @@ public class ResultQuizActivity extends BaseActivity {
         userUid = firebaseAuth.getUid();
         NameQuiz = getIntent().getStringExtra("quizName");
         notSolve = getIntent().getIntegerArrayListExtra("notSolve");
+        categoryNum = getIntent().getIntExtra("categoryNum", 7);
         getHistoryFromDB();
         information = "정답: "+ correctQuiz + " / " + questionCount;
         like = findViewById(R.id.like);
@@ -143,6 +148,21 @@ public class ResultQuizActivity extends BaseActivity {
                 }
             }
         });
+
+        db2.child("category_score").child(String.valueOf(categoryNum)).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    playedUserCategoryScore = Integer.parseInt(String.valueOf((task.getResult().getValue())));
+                }
+            }
+        });
+
+
     }
 
     // 결과 하단 버튼
@@ -170,8 +190,10 @@ public class ResultQuizActivity extends BaseActivity {
             // * 히스토리 테이블에 유저의 최초 기록 등록
             if (isFirstTime(userUid)) {
                 playedUserScore += (long)score;
+                playedUserCategoryScore += score;
                 databaseReference.child("History").child(NameQuiz).child(userUid).setValue(history);
                 databaseReference.child("Users").child(userUid).child("sum").setValue(playedUserScore);
+                databaseReference.child("Users").child(userUid).child("category_score").child(String.valueOf(categoryNum)).setValue(playedUserCategoryScore);
             }
             // 처음과 상관 없이 변경되는 값들
             // * 좋아요 변경 여부
@@ -187,8 +209,10 @@ public class ResultQuizActivity extends BaseActivity {
             history = new History(NameQuiz, userUid, date, isLike, notSolve, (long)score);
             if (isFirstTime(userUid)) {
                 playedUserScore += (long)score;
+                playedUserCategoryScore += score;
                 databaseReference.child("History").child(NameQuiz).child(userUid).setValue(history);
                 databaseReference.child("Users").child(userUid).child("sum").setValue(playedUserScore);
+                databaseReference.child("Users").child(userUid).child("category_score").child(String.valueOf(categoryNum)).setValue(playedUserCategoryScore);
             }
             databaseReference.child("Quizs").child(NameQuiz).child("likes").setValue(currentLikes);
             databaseReference.child("History").child(NameQuiz).child(userUid).child("Likes").setValue(isLike);

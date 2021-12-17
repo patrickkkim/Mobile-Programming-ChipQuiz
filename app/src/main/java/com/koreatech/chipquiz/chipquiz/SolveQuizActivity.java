@@ -15,6 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,6 +54,10 @@ public class SolveQuizActivity extends BaseActivity {
     int currentQuestionNum = 1;
     // 맞은 개수
     int isCorrect = 0;
+    String userUid;
+    int categoryNum;
+
+    FirebaseDatabase db = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +79,7 @@ public class SolveQuizActivity extends BaseActivity {
         // 입력받은 문제에 따른 문제 내용 변경
         question = findViewById(R.id.question);
 
+
         // 나가기 버튼
         button = (Button) findViewById(R.id.exit);
         button.setOnClickListener(new View.OnClickListener() {
@@ -80,12 +88,61 @@ public class SolveQuizActivity extends BaseActivity {
                 finish();
             }
         });
+        getQuizCategory();
+    }
+
+    private void getQuizCategory()
+    {
+        DatabaseReference db2 = db.getReference("Quizs/" + quizName);
+
+        // 현재 카테고리 확인
+        db2.child("category").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase-category", "Error getting data", task.getException());
+                }
+                else {
+                    Log.d("firebase-category", String.valueOf(task.getResult().getValue()));
+                    getCategoryNum(String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+    }
+
+    private void getCategoryNum(String category) {
+        switch(category) {
+            case "역사":
+                categoryNum = 0;
+                break;
+            case "경제":
+                categoryNum = 1;
+                break;
+            case "시사":
+                categoryNum = 2;
+                break;
+            case "인물":
+                categoryNum = 3;
+                break;
+            case "넌센스":
+                categoryNum = 4;
+                break;
+            case "영어":
+                categoryNum = 5;
+                break;
+            case "우리말":
+                categoryNum = 6;
+                break;
+            default:
+                categoryNum = 7;
+                break;
+        }
     }
 
     private void getQuizFromDB(String name, String type) {
         // DB에서 문제를 갖고옴 (현재는 테스트로 등록해놓은 문제를 갖고오도록 설정)
         currentQuestionNum = 1;
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        db = FirebaseDatabase.getInstance();
         String path = type + "/" + name + "/";
         DatabaseReference info = db.getReference(path + "questions");
         switch (type) {
@@ -252,6 +309,7 @@ public class SolveQuizActivity extends BaseActivity {
                             intent.putExtra("quizName", quizName);
                             intent.putExtra("isCorrect", isCorrect);
                             intent.putExtra("numOfQuestion", countOfQuestion);
+                            intent.putExtra("categoryNum", categoryNum);
                             intent.putIntegerArrayListExtra("notSolve", notSolve);
                             startActivityForResult(intent, 1);
                         }
@@ -281,6 +339,7 @@ public class SolveQuizActivity extends BaseActivity {
             intent.putExtra("quizName", quizName);
             intent.putExtra("isCorrect", isCorrect);
             intent.putExtra("numOfQuestion", countOfQuestion);
+            intent.putExtra("categoryNum", categoryNum);
             intent.putIntegerArrayListExtra("notSolve", notSolve);
             startActivityForResult(intent, 1);
         }
@@ -300,6 +359,7 @@ public class SolveQuizActivity extends BaseActivity {
             intent.putExtra("quizName", quizName);
             intent.putExtra("isCorrect", isCorrect);
             intent.putExtra("numOfQuestion", countOfQuestion);
+            intent.putExtra("categoryNum", categoryNum);
             intent.putIntegerArrayListExtra("notSolve", notSolve);
             startActivityForResult(intent, 1);
         }
