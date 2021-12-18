@@ -4,14 +4,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.admin.SystemUpdatePolicy;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,8 +37,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class QuizAddActivity extends BaseActivity {
@@ -40,6 +48,7 @@ public class QuizAddActivity extends BaseActivity {
     private int quizNumber = 0;
     private int selectedForm = 0;
     private List<View> formViewList = new ArrayList<>();
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
     private final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private final DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -135,6 +144,31 @@ public class QuizAddActivity extends BaseActivity {
         }
     }
 
+    public static class ProgressDialog {
+        private AlertDialog dialog;
+
+        public ProgressDialog(Context context) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setCancelable(false);
+            builder.setView(R.layout.layout_loading_dialog);
+            dialog = builder.create();
+        }
+
+        public void showProgress(boolean show) {
+            if (show) {
+                dialog.show();
+            } else {
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.dismiss();
+                    }
+                }, 1000);
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,6 +177,10 @@ public class QuizAddActivity extends BaseActivity {
         // 앱바 이름 바꾸기
         ActionBar bar = getSupportActionBar();
         bar.setTitle("퀴즈 추가");
+
+        // 로딩창 시작
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.showProgress(true);
 
         Spinner categorySpinner = (Spinner) findViewById(R.id.quiz_category_list);
         Spinner typeSpinner = (Spinner) findViewById(R.id.quiz_type_list);
@@ -184,6 +222,7 @@ public class QuizAddActivity extends BaseActivity {
         String key = getIntent().getStringExtra("key");
         String type = getIntent().getStringExtra("type");
         if (key != null && type != null) {
+
             databaseReference.child("Quizs").orderByKey().equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -292,6 +331,9 @@ public class QuizAddActivity extends BaseActivity {
                     break;
             }
         }
+
+        // 로딩창 제거
+        progressDialog.showProgress(false);
     }
 
     public void onButtonClick(View view) {
@@ -393,7 +435,8 @@ public class QuizAddActivity extends BaseActivity {
         }
 
         Quiz<MCQuestion> quiz = new Quiz(name, questions);
-        QuizMetaData meta = new QuizMetaData(name, user.getUid(), description, category, "MC", "");
+        Date today = new Date();
+        QuizMetaData meta = new QuizMetaData(name, user.getUid(), description, category, "MC", formatter.format(today));
         databaseReference.child("MCQuiz").child(name).setValue(quiz);
         databaseReference.child("Quizs").child(name).setValue(meta);
     }
@@ -422,7 +465,8 @@ public class QuizAddActivity extends BaseActivity {
         }
 
         Quiz<MCQuestion> quiz = new Quiz(name, questions);
-        QuizMetaData meta = new QuizMetaData(name, user.getUid(), description, category, "SA","");
+        Date today = new Date();
+        QuizMetaData meta = new QuizMetaData(name, user.getUid(), description, category, "SA",formatter.format(today));
         databaseReference.child("SAQuiz").child(name).setValue(quiz);
         databaseReference.child("Quizs").child(name).setValue(meta);
     }
@@ -452,7 +496,8 @@ public class QuizAddActivity extends BaseActivity {
         }
 
         Quiz<OXQuestion> quiz = new Quiz(name, questions);
-        QuizMetaData meta = new QuizMetaData(name, user.getUid(), description, category, "OX","");
+        Date today = new Date();
+        QuizMetaData meta = new QuizMetaData(name, user.getUid(), description, category, "OX",formatter.format(today));
         databaseReference.child("OXQuiz").child(name).setValue(quiz);
         databaseReference.child("Quizs").child(name).setValue(meta);
     }

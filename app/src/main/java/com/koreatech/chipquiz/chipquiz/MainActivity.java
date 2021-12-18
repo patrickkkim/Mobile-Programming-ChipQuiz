@@ -28,7 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koreatech.chipquiz.chipquiz.QuizAddActivity.QuizMetaData;
-
+import com.koreatech.chipquiz.chipquiz.QuizAddActivity.ProgressDialog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -67,6 +67,9 @@ public class MainActivity extends BaseActivity {
         ActionBar bar = getSupportActionBar();
         bar.setTitle("퀴즈 홈");
 
+        // 로딩창
+        ProgressDialog progressDialog = new ProgressDialog(this);
+
         Spinner categorySpinner = (Spinner) findViewById(R.id.spinner_category);
         Spinner orderbySpinner = (Spinner) findViewById(R.id.spinner_orderby);
         ArrayAdapter<CharSequence> categoryAdapter =
@@ -83,6 +86,9 @@ public class MainActivity extends BaseActivity {
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                // 로딩창 시작
+                progressDialog.showProgress(true);
+                
                 String[] categoryArray = getResources().getStringArray(R.array.category_array);
 
                 ValueEventListener valueEventListener= new ValueEventListener() {
@@ -126,6 +132,8 @@ public class MainActivity extends BaseActivity {
                     databaseReference.child("Quizs").orderByChild("category").equalTo(categoryArray[i]).addListenerForSingleValueEvent(valueEventListener);
                     temp=categoryArray[i];
                 }
+                // 로딩창 종료
+                progressDialog.showProgress(false);
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
