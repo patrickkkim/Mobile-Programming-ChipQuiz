@@ -242,6 +242,13 @@ public class SignupActivity extends BaseActivity {
                                             if (task.isSuccessful()) {
                                                 ((TextView) findViewById(R.id.SaveError)).setText("한번 인증에 실패한 이메일은 일정시간 후에 가능합니다.");
                                                 Toast.makeText(getApplicationContext(), "이메일 전송 완료", Toast.LENGTH_LONG).show();
+
+                                                Button bt = (Button) findViewById(R.id.buttonSignup);
+                                                bt.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.button_style_sub));
+                                                bt.setEnabled(true);
+                                                bt = (Button) findViewById(R.id.verificationEmail);
+                                                bt.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.button_style_deactivate));
+                                                bt.setEnabled(false);
                                             }
                                         }
                                     });
@@ -259,12 +266,6 @@ public class SignupActivity extends BaseActivity {
             return false;
         }
 
-        Button bt = (Button) findViewById(R.id.buttonSignup);
-        bt.setBackground(ContextCompat.getDrawable(this, R.drawable.button_style_sub));
-        bt.setEnabled(true);
-        bt = (Button) findViewById(R.id.verificationEmail);
-        bt.setBackground(ContextCompat.getDrawable(this, R.drawable.button_style_deactivate));
-        bt.setEnabled(false);
         // 완벽히 회원가입성공
         return true;
     }
