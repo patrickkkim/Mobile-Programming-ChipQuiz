@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,29 +17,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Spinner
+        <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/spinner_category"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="10dp"
-            android:entries="@array/category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_spinner_border"
+            android:paddingVertical="18dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="36dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/spinner_orderby"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Spinner
+        <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/spinner_orderby"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:entries="@array/orderBy"
+            android:background="@drawable/rounded_corner_spinner_border"
+            android:paddingVertical="18dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="36dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/spinner_category"
+            app:layout_constraintStart_toEndOf="@id/spinner_category"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -264,7 +272,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="50dp"
                 android:gravity="center"
-                android:text="로딩중..."
+                android:text="텅..."
                 android:textSize="24sp" />
 
         </LinearLayout>

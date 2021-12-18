@@ -64,20 +64,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
-                android:padding="18dp"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_corner_textinput"
-                android:hint="   1번 정답" />
+                android:hint="1번 정답"
+                android:padding="18dp" />
 
             <EditText
                 android:id="@+id/quiz_answer_input02"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:padding="18dp"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_corner_textinput"
-                android:hint="   2번 정답" />
+                android:hint="2번 정답"
+                android:padding="18dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -92,20 +92,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
-                android:padding="18dp"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_corner_textinput"
-                android:hint="   3번 정답" />
+                android:hint="3번 정답"
+                android:padding="18dp" />
 
             <EditText
                 android:id="@+id/quiz_answer_input04"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:padding="18dp"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_corner_textinput"
-                android:hint="   4번 정답" />
+                android:hint="4번 정답"
+                android:padding="18dp" />
         </LinearLayout>
 
     </LinearLayout>

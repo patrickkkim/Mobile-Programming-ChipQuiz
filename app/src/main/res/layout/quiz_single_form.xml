@@ -73,9 +73,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="40dp"
         android:background="@drawable/rounded_corner_textinput"
-        android:hint="   해설을 입력하세요(선택)" />
+        android:hint="해설을 입력하세요(선택)"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="40dp" />
 
 </LinearLayout>

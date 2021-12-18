@@ -2,6 +2,7 @@ package com.koreatech.chipquiz.chipquiz;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,8 +29,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koreatech.chipquiz.chipquiz.QuizAddActivity.QuizMetaData;
+import com.koreatech.chipquiz.chipquiz.QuizAddActivity.ProgressDialog;
 //import com.koreatech.chipquiz.chipquiz.User;
-
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -73,6 +74,9 @@ public class MainActivity extends BaseActivity {
         ActionBar bar = getSupportActionBar();
         bar.setTitle("퀴즈 홈");
 
+        // 로딩창
+        ProgressDialog progressDialog = new ProgressDialog(this);
+
         Spinner categorySpinner = (Spinner) findViewById(R.id.spinner_category);
         Spinner orderbySpinner = (Spinner) findViewById(R.id.spinner_orderby);
         ArrayAdapter<CharSequence> categoryAdapter =
@@ -89,6 +93,9 @@ public class MainActivity extends BaseActivity {
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                // 로딩창 시작
+                progressDialog.showProgress(true);
+                
                 String[] categoryArray = getResources().getStringArray(R.array.category_array);
                 List<Integer> Score;
                 ValueEventListener valueEventListener= new ValueEventListener() {
@@ -97,6 +104,9 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         clearQuizForm(false);
+
+                        // 로딩창 종료
+                        progressDialog.showProgress(false);
 
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             QuizMetaData quizInfo=ds.getValue(QuizMetaData.class);
@@ -148,7 +158,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 adapterView.getItemAtPosition(0);
-                orderbySpinner.setSelection(0);
+                categorySpinner.setSelection(0);
             }
 
         });
@@ -179,18 +189,12 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 adapterView.getItemAtPosition(0);
+                orderbySpinner.setSelection(0);
             }
 
         });
 
 
-    }
-    // 액션바 관련 함수
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.action_bar, menu);
-        return super.onCreateOptionsMenu(menu);
     }
 
     // 퀴즈 이동 버튼

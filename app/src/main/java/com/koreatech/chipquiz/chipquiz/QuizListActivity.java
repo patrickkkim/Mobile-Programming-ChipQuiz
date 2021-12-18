@@ -58,8 +58,9 @@ public class QuizListActivity extends BaseActivity {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     boolean MC = ds.child("MC").getValue(Boolean.class);
                     boolean SA = ds.child("SA").getValue(Boolean.class);
+                    Integer likes = ds.child("likes").getValue(Integer.class);
                     String type = MC ? "MC" : (SA ? "SA" : "OX");
-                    addListForm(ds.getKey(), type);
+                    addListForm(ds.getKey(), likes, type);
                 }
             }
             @Override
@@ -67,12 +68,12 @@ public class QuizListActivity extends BaseActivity {
         });
     }
 
-    public void onButtonClick(View view) {
+    public void onClick(View view) {
         Intent intent;
         intent = new Intent(this, QuizAddActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         switch (view.getId()) {
-            case R.id.button_edit:
+            case R.id.QuizButton:
                 String key = view.getTag(R.id.quizName).toString();
                 String type = view.getTag(R.id.quizType).toString();
                 intent.putExtra("key", key);
@@ -85,17 +86,22 @@ public class QuizListActivity extends BaseActivity {
         }
     }
 
-    private void addListForm(String name, String type) {
+    private void addListForm(String name, Integer likes, String type) {
         LinearLayout dynamicLayout = findViewById(R.id.quiz_list_layout);
 
         View formView = getLayoutInflater().inflate(
-                R.layout.quiz_list_form, dynamicLayout, false
+                R.layout.quiz_solve_list, dynamicLayout, false
         );
 
-        TextView title = formView.findViewById(R.id.quiz_title);
-        title.setText(name);
+        TextView titleView = formView.findViewById(R.id.QuizName);
+        TextView likesView = formView.findViewById(R.id.QuizLikes);
+        TextView typeView = formView.findViewById(R.id.QuizType);
+        titleView.setText(name);
+        likesView.setText(Integer.toString(likes));
+        String typeText = type.equals("MC") ? "4지선다 퀴즈" : (type.equals("SA") ? "단답형 퀴즈" : "OX 퀴즈");
+        typeView.setText(typeText);
 
-        Button editBtn = formView.findViewById(R.id.button_edit);
+        Button editBtn = formView.findViewById(R.id.QuizButton);
         editBtn.setTag(R.id.quizName, name);
         editBtn.setTag(R.id.quizType, type);
 
