@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.concurrent.CountDownLatch;
 
-public class MypageActivity extends AppCompatActivity {
+public class MypageActivity extends BaseActivity {
 
     EditText EmailID ;
     EditText Nickname;

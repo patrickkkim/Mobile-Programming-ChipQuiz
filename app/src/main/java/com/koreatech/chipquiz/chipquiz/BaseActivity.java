@@ -28,8 +28,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        if(firebaseAuth.getCurrentUser() != null){
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
             inflater.inflate(R.menu.action_bar_authenticated, menu);
         } else {
             inflater.inflate(R.menu.action_bar, menu);
@@ -44,22 +43,29 @@ public class BaseActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.action_login:
                 intent = new Intent(this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 return true;
             case R.id.action_register:
                 intent = new Intent(this, SignupActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 return true;
             case R.id.action_quizCreate:
                 intent = new Intent(this, QuizListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 return true;
             case R.id.action_mypage:
                 intent = new Intent(this, MypageActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 return true;
             case R.id.action_logout:
-                // 로그아웃
+                FirebaseAuth.getInstance().signOut();
+                intent = new Intent(this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
