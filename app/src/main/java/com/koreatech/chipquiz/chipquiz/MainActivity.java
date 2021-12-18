@@ -2,7 +2,6 @@ package com.koreatech.chipquiz.chipquiz;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,7 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,8 +19,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koreatech.chipquiz.chipquiz.QuizAddActivity.QuizMetaData;
+//import com.koreatech.chipquiz.chipquiz.User;
 
 
 import java.text.ParseException;
@@ -48,6 +46,10 @@ public class MainActivity extends BaseActivity {
     private Spinner spinner_orderby;
     Intent intent;
     TextView Player;
+    TextView FirstUser;
+    TextView SecondUser;
+    TextView ThirdUser;
+
     private String temp="";
     private String orderby="";
     private final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -61,6 +63,7 @@ public class MainActivity extends BaseActivity {
 
     //sdfgsdf
     List <QuizMetaData> quizList = new ArrayList<QuizMetaData>();
+    //List <User> userList = new ArrayList<User>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +90,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String[] categoryArray = getResources().getStringArray(R.array.category_array);
-
+                List<Integer> Score;
                 ValueEventListener valueEventListener= new ValueEventListener() {
 
 
@@ -97,7 +100,10 @@ public class MainActivity extends BaseActivity {
 
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             QuizMetaData quizInfo=ds.getValue(QuizMetaData.class);
+                            //User userInfo = ds.getValue(User.class);
+
                             quizList.add(quizInfo);
+                            //userList.add(userInfo);
 
                         }
                         if(orderby.equals("추천순")){
@@ -108,11 +114,18 @@ public class MainActivity extends BaseActivity {
                         }
                         for ( QuizMetaData quizInfo : quizList) {
 
-                            String type = quizInfo.MC ? "4지선다 퀴즈" : (quizInfo.SA ? "단답형 퀴즈" : "OX 퀴즈");
+                            String type = quizInfo.MC ? "MCQuiz" : (quizInfo.SA ? "SAQuiz" : "OXQuiz");
 
                             addListForm(quizInfo.name, type, quizInfo.likes);
 
                         }
+                        //Collections.sort(userList, new SortbyUserScore());
+                       // FirstUser=findViewById(R.id.firstUser);
+                       // FirstUser.setText(userList.get(0).nickname);
+                        //for( User userInfo : userList){
+                        //    List UserScore= userInfo.category_score;
+
+                        //}
                     }
 
                     @Override
@@ -123,12 +136,14 @@ public class MainActivity extends BaseActivity {
 
                 if (categoryArray[i].equals("전체")){
                     databaseReference.child("Quizs").addListenerForSingleValueEvent(valueEventListener);
+                   // databaseReference.child("Users").addListenerForSingleValueEvent(valueEventListener);
                     temp=categoryArray[i];
                 }
                 else{
                     databaseReference.child("Quizs").orderByChild("category").equalTo(categoryArray[i]).addListenerForSingleValueEvent(valueEventListener);
                     temp=categoryArray[i];
                 }
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -155,19 +170,11 @@ public class MainActivity extends BaseActivity {
                 clearQuizForm(true);
                 for ( QuizMetaData quizInfo : quizList) {
 
-                    String type = quizInfo.MC ? "4지선다 퀴즈" : (quizInfo.SA ? "단답형 퀴즈" : "OX 퀴즈");
+                    String type = quizInfo.MC ? "MCQuiz" : (quizInfo.SA ? "SAQuiz" : "OXQuiz");
 
                     addListForm(quizInfo.name, type, quizInfo.likes);
 
                 }
-
-
-
-
-
-
-
-
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -277,6 +284,12 @@ public class MainActivity extends BaseActivity {
         }
 
     }
+    //class SortbyUserScore implements Comparator<User>{
+    //    ArrayList<Integer> c;
+     //   public long compare(User a, User b) {
+
+     //   }
+    //}
     private void clearQuizForm(boolean isorderby) {
         if(!isorderby){ quizList.clear();}
         LinearLayout dynamicLayout = (LinearLayout) findViewById(R.id.quiz_solve_layout);
