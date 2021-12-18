@@ -264,7 +264,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="50dp"
                 android:gravity="center"
-                android:text="로딩중..."
+                android:text="텅..."
                 android:textSize="24sp" />
 
         </LinearLayout>
