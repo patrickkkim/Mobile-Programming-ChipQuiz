@@ -139,7 +139,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 adapterView.getItemAtPosition(0);
-                orderbySpinner.setSelection(0);
+                categorySpinner.setSelection(0);
             }
 
         });
@@ -178,6 +178,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 adapterView.getItemAtPosition(0);
+                orderbySpinner.setSelection(0);
             }
 
         });

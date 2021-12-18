@@ -49,8 +49,13 @@
         <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/layout/quiz_single_form.xml" value="0.36614583333333334" />
         <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/menu/action_bar.xml" value="0.36614583333333334" />
         <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz/app/src/main/res/menu/action_bar_authenticated.xml" value="0.36614583333333334" />
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz3/app/src/main/res/drawable/layout_style.xml" value="0.38229166666666664" />
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz3/app/src/main/res/drawable/rounded_corner_border.xml" value="0.38229166666666664" />
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz3/app/src/main/res/drawable/rounded_corner_button_border.xml" value="0.38229166666666664" />
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz3/app/src/main/res/drawable/rounded_corner_spinner.xml" value="0.38229166666666664" />
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz3/app/src/main/res/drawable/rounded_corner_spinner_border.xml" value="0.38229166666666664" />
         <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz3/app/src/main/res/layout/activity_login.xml" value="0.36614583333333334" />
-        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz3/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz3/app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz3/app/src/main/res/layout/activity_mypage.xml" value="0.36614583333333334" />
         <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz3/app/src/main/res/layout/activity_quiz_add.xml" value="0.36614583333333334" />
         <entry key="..\:/AndroidStudioProjects/Mobile-Programming-ChipQuiz3/app/src/main/res/layout/activity_quiz_list.xml" value="0.36614583333333334" />
