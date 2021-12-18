@@ -104,21 +104,23 @@ public class QuizAddActivity extends BaseActivity {
     }
 
     @IgnoreExtraProperties
-    public class QuizMetaData {
+    public static class QuizMetaData {
         public int likes = 0;
         public boolean MC = false, OX = false, SA = false;
         public String maker_uid;
         public String description;
         public String name;
         public String category;
+        public String datetime;
 
         public QuizMetaData() {}
 
-        public QuizMetaData(String name, String maker_uid, String description, String category, String type) {
+        public QuizMetaData(String name, String maker_uid, String description, String category, String type, String datetime) {
             this.name = name;
             this.maker_uid = maker_uid;
             this.description = description;
             this.category = category;
+            this.datetime=datetime;
             switch(type) {
                 case "MC":
                     this.MC = true;
@@ -205,14 +207,17 @@ public class QuizAddActivity extends BaseActivity {
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {}
             });
+
+            Spinner typeList = findViewById(R.id.quiz_type_list);
             switch (type) {
                 case "MC":
+                    typeList.setSelection(0);
                     databaseReference.child("MCQuiz").orderByKey().equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot mcds : snapshot.getChildren()) {
+                            for (DataSnapshot ds : snapshot.getChildren()) {
                                 clearQuizForm();
-                                for (DataSnapshot question : mcds.child("questions").getChildren()) {
+                                for (DataSnapshot question : ds.child("questions").getChildren()) {
                                     View form = addQuizForm(R.layout.quiz_multiple_form);
 
                                     EditText content = form.findViewById(R.id.quiz_content_input);
@@ -236,15 +241,60 @@ public class QuizAddActivity extends BaseActivity {
                     });
                     break;
                 case "SA":
+                    typeList.setSelection(1);
+                    databaseReference.child("SAQuiz").orderByKey().equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot ds : snapshot.getChildren()) {
+                                clearQuizForm();
+                                for (DataSnapshot question : ds.child("questions").getChildren()) {
+                                    View form = addQuizForm(R.layout.quiz_single_form);
+
+                                    EditText content = form.findViewById(R.id.quiz_content_input);
+                                    EditText answer = form.findViewById(R.id.quiz_answer_input);
+                                    EditText comment = form.findViewById(R.id.quiz_commentary_input);
+
+                                    content.setText(question.child("description").getValue(String.class));
+                                    answer.setText(question.child("answer").getValue(String.class));
+                                    comment.setText(question.child("comment").getValue(String.class));
+                                }
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {}
+                    });
                     break;
                 case "OX":
+                    typeList.setSelection(2);
+                    databaseReference.child("OXQuiz").orderByKey().equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot ds : snapshot.getChildren()) {
+                                clearQuizForm();
+                                for (DataSnapshot question : ds.child("questions").getChildren()) {
+                                    View form = addQuizForm(R.layout.quiz_ox_form);
+
+                                    EditText content = form.findViewById(R.id.quiz_content_input);
+                                    EditText answer = form.findViewById(R.id.quiz_answer_input01);
+                                    EditText wrong = form.findViewById(R.id.quiz_answer_input02);
+                                    EditText comment = form.findViewById(R.id.quiz_commentary_input);
+
+                                    content.setText(question.child("description").getValue(String.class));
+                                    answer.setText(question.child("answer").getValue(String.class));
+                                    wrong.setText(question.child("wrong").getValue(String.class));
+                                    comment.setText(question.child("comment").getValue(String.class));
+                                }
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {}
+                    });
                     break;
             }
         }
     }
 
     public void onButtonClick(View view) {
-        Intent intent;
         switch(view.getId()) {
             case R.id.buttonAddQuiz:
                 addQuizForm(selectedForm);
@@ -309,9 +359,11 @@ public class QuizAddActivity extends BaseActivity {
             return;
         }
 
-
         Intent intent = new Intent(this, QuizListActivity.class);
+        intent.putExtra("success", true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 
     private void submitMC(FirebaseUser user) throws Exception {
@@ -341,7 +393,7 @@ public class QuizAddActivity extends BaseActivity {
         }
 
         Quiz<MCQuestion> quiz = new Quiz(name, questions);
-        QuizMetaData meta = new QuizMetaData(name, user.getUid(), description, category, "MC");
+        QuizMetaData meta = new QuizMetaData(name, user.getUid(), description, category, "MC", "");
         databaseReference.child("MCQuiz").child(name).setValue(quiz);
         databaseReference.child("Quizs").child(name).setValue(meta);
     }
@@ -370,7 +422,7 @@ public class QuizAddActivity extends BaseActivity {
         }
 
         Quiz<MCQuestion> quiz = new Quiz(name, questions);
-        QuizMetaData meta = new QuizMetaData(name, user.getUid(), description, category, "SA");
+        QuizMetaData meta = new QuizMetaData(name, user.getUid(), description, category, "SA","");
         databaseReference.child("SAQuiz").child(name).setValue(quiz);
         databaseReference.child("Quizs").child(name).setValue(meta);
     }
@@ -400,7 +452,7 @@ public class QuizAddActivity extends BaseActivity {
         }
 
         Quiz<OXQuestion> quiz = new Quiz(name, questions);
-        QuizMetaData meta = new QuizMetaData(name, user.getUid(), description, category, "OX");
+        QuizMetaData meta = new QuizMetaData(name, user.getUid(), description, category, "OX","");
         databaseReference.child("OXQuiz").child(name).setValue(quiz);
         databaseReference.child("Quizs").child(name).setValue(meta);
     }
@@ -411,6 +463,6 @@ public class QuizAddActivity extends BaseActivity {
     }
 
     private void showMessage(String msg) {
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
 }

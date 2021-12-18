@@ -79,7 +79,6 @@ public class SolveQuizActivity extends BaseActivity {
         // 입력받은 문제에 따른 문제 내용 변경
         question = findViewById(R.id.question);
 
-
         // 나가기 버튼
         button = (Button) findViewById(R.id.exit);
         button.setOnClickListener(new View.OnClickListener() {

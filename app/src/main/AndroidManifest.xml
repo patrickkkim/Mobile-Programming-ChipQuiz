@@ -10,6 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChipQuiz">
         <activity
+            android:name=".SplashActivity"
+            android:noHistory="true"
+            android:exported="true"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".BaseActivity"
             android:exported="false" />
         <activity
@@ -31,19 +42,14 @@
             android:exported="false" />
         <activity
             android:name=".QuizAddActivity"
-            android:noHistory="true"
-            android:exported="false" />
+            android:exported="false"
+            android:noHistory="true" />
         <activity
             android:name=".QuizListActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".SignupActivity" />
         <activity android:name=".MypageActivity" />
