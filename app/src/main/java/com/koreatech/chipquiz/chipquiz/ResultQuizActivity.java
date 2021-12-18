@@ -213,6 +213,7 @@ public class ResultQuizActivity extends BaseActivity {
             }
             databaseReference.child("Quizs").child(NameQuiz).child("likes").setValue(currentLikes);
             databaseReference.child("History").child(NameQuiz).child(userUid).child("Likes").setValue(isLike);
+            startActivity(new Intent(ResultQuizActivity.this,MainActivity.class));
             finish();
         }
     }
