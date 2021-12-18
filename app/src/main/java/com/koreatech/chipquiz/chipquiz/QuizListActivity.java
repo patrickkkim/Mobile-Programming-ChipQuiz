@@ -9,6 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +33,7 @@ public class QuizListActivity extends BaseActivity {
     private final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private final DatabaseReference databaseReference = firebaseDatabase.getReference();
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    ActivityResultLauncher<Intent> launcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,11 @@ public class QuizListActivity extends BaseActivity {
         // 앱바 이름 바꾸기
         ActionBar bar = getSupportActionBar();
         bar.setTitle("마이 퀴즈");
+
+        Boolean success = getIntent().getBooleanExtra("success", false);
+        if (success) {
+            showMessage("퀴즈 등록 완료!");
+        }
 
         FirebaseUser user = mAuth.getCurrentUser();
         databaseReference.child("Quizs").orderByChild("maker_uid").equalTo(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -52,27 +62,24 @@ public class QuizListActivity extends BaseActivity {
                     addListForm(ds.getKey(), type);
                 }
             }
-
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+            public void onCancelled(DatabaseError databaseError) {}
         });
     }
 
     public void onButtonClick(View view) {
         Intent intent;
+        intent = new Intent(this, QuizAddActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         switch (view.getId()) {
             case R.id.button_edit:
                 String key = view.getTag(R.id.quizName).toString();
                 String type = view.getTag(R.id.quizType).toString();
-                intent = new Intent(this, QuizAddActivity.class);
                 intent.putExtra("key", key);
                 intent.putExtra("type", type);
                 startActivity(intent);
                 break;
             case R.id.buttonAddQuiz:
-                intent = new Intent(this, QuizAddActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -93,5 +100,9 @@ public class QuizListActivity extends BaseActivity {
         editBtn.setTag(R.id.quizType, type);
 
         dynamicLayout.addView(formView);
+    }
+
+    private void showMessage(String msg) {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
 }
