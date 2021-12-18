@@ -42,7 +42,7 @@
             app:srcCompat="@drawable/firecracker_red" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/Score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -74,7 +74,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/Score" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

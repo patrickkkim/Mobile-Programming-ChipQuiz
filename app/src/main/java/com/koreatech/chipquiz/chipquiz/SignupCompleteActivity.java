@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class SignupCompleteActivity extends BaseActivity {
 
@@ -22,7 +21,7 @@ public class SignupCompleteActivity extends BaseActivity {
         Intent intent = getIntent();
         String nickname = intent.getStringExtra("nickname");
 
-        TextView text = findViewById(R.id.textView);
+        TextView text = findViewById(R.id.Score);
         text.setText("환영합니다, "+nickname+" 님!");
     }
 

@@ -190,7 +190,6 @@ public class MainActivity extends BaseActivity {
     public void onClick(View view) {
         // 클릭 이벤트 발생 id 갖고오기
         int viewId = view.getId();
-        //Intent intent;
 
         if( viewId== R.id.QuizButton){
             String name = view.getTag(R.id.quizName).toString();
@@ -199,7 +198,6 @@ public class MainActivity extends BaseActivity {
             intent.putExtra("QuizName", name);
             intent.putExtra("QuizType", type);
             startActivity(intent);
-
         }
         // 인텐트 선언
         //intent = new Intent(MainActivity.this, SolveQuizActivity.class);
