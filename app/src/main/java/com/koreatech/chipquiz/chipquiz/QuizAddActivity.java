@@ -222,7 +222,6 @@ public class QuizAddActivity extends BaseActivity {
         String key = getIntent().getStringExtra("key");
         String type = getIntent().getStringExtra("type");
         if (key != null && type != null) {
-
             databaseReference.child("Quizs").orderByKey().equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -241,104 +240,104 @@ public class QuizAddActivity extends BaseActivity {
                         } catch(Exception e) {
                             showMessage(e.getMessage());
                         }
+
+                        Spinner typeList = findViewById(R.id.quiz_type_list);
+                        switch (type) {
+                            case "MC":
+                                typeList.setSelection(0);
+                                databaseReference.child("MCQuiz").orderByKey().equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        // 로딩창 제거
+                                        progressDialog.showProgress(false);
+
+                                        for (DataSnapshot ds : snapshot.getChildren()) {
+                                            clearQuizForm();
+                                            for (DataSnapshot question : ds.child("questions").getChildren()) {
+                                                View form = addQuizForm(R.layout.quiz_multiple_form);
+
+                                                EditText content = form.findViewById(R.id.quiz_content_input);
+                                                EditText a1 = form.findViewById(R.id.quiz_answer_input01);
+                                                EditText a2 = form.findViewById(R.id.quiz_answer_input02);
+                                                EditText a3 = form.findViewById(R.id.quiz_answer_input03);
+                                                EditText a4 = form.findViewById(R.id.quiz_answer_input04);
+                                                EditText comment = form.findViewById(R.id.quiz_commentary_input);
+
+                                                content.setText(question.child("description").getValue(String.class));
+                                                a1.setText(question.child("a1").getValue(String.class));
+                                                a2.setText(question.child("a2").getValue(String.class));
+                                                a3.setText(question.child("a3").getValue(String.class));
+                                                a4.setText(question.child("a4").getValue(String.class));
+                                                comment.setText(question.child("comment").getValue(String.class));
+                                            }
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {}
+                                });
+                                break;
+                            case "SA":
+                                typeList.setSelection(1);
+                                databaseReference.child("SAQuiz").orderByKey().equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        // 로딩창 제거
+                                        progressDialog.showProgress(false);
+
+                                        for (DataSnapshot ds : snapshot.getChildren()) {
+                                            clearQuizForm();
+                                            for (DataSnapshot question : ds.child("questions").getChildren()) {
+                                                View form = addQuizForm(R.layout.quiz_single_form);
+
+                                                EditText content = form.findViewById(R.id.quiz_content_input);
+                                                EditText answer = form.findViewById(R.id.quiz_answer_input);
+                                                EditText comment = form.findViewById(R.id.quiz_commentary_input);
+
+                                                content.setText(question.child("description").getValue(String.class));
+                                                answer.setText(question.child("answer").getValue(String.class));
+                                                comment.setText(question.child("comment").getValue(String.class));
+                                            }
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {}
+                                });
+                                break;
+                            case "OX":
+                                typeList.setSelection(2);
+                                databaseReference.child("OXQuiz").orderByKey().equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        // 로딩창 제거
+                                        progressDialog.showProgress(false);
+
+                                        for (DataSnapshot ds : snapshot.getChildren()) {
+                                            clearQuizForm();
+                                            for (DataSnapshot question : ds.child("questions").getChildren()) {
+                                                View form = addQuizForm(R.layout.quiz_ox_form);
+
+                                                EditText content = form.findViewById(R.id.quiz_content_input);
+                                                EditText answer = form.findViewById(R.id.quiz_answer_input01);
+                                                EditText wrong = form.findViewById(R.id.quiz_answer_input02);
+                                                EditText comment = form.findViewById(R.id.quiz_commentary_input);
+
+                                                content.setText(question.child("description").getValue(String.class));
+                                                answer.setText(question.child("answer").getValue(String.class));
+                                                wrong.setText(question.child("wrong").getValue(String.class));
+                                                comment.setText(question.child("comment").getValue(String.class));
+                                            }
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {}
+                                });
+                                break;
+                        }
                     }
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {}
             });
-
-            Spinner typeList = findViewById(R.id.quiz_type_list);
-            switch (type) {
-                case "MC":
-                    typeList.setSelection(0);
-                    databaseReference.child("MCQuiz").orderByKey().equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            // 로딩창 제거
-                            progressDialog.showProgress(false);
-
-                            for (DataSnapshot ds : snapshot.getChildren()) {
-                                clearQuizForm();
-                                for (DataSnapshot question : ds.child("questions").getChildren()) {
-                                    View form = addQuizForm(R.layout.quiz_multiple_form);
-
-                                    EditText content = form.findViewById(R.id.quiz_content_input);
-                                    EditText a1 = form.findViewById(R.id.quiz_answer_input01);
-                                    EditText a2 = form.findViewById(R.id.quiz_answer_input02);
-                                    EditText a3 = form.findViewById(R.id.quiz_answer_input03);
-                                    EditText a4 = form.findViewById(R.id.quiz_answer_input04);
-                                    EditText comment = form.findViewById(R.id.quiz_commentary_input);
-
-                                    content.setText(question.child("description").getValue(String.class));
-                                    a1.setText(question.child("a1").getValue(String.class));
-                                    a2.setText(question.child("a2").getValue(String.class));
-                                    a3.setText(question.child("a3").getValue(String.class));
-                                    a4.setText(question.child("a4").getValue(String.class));
-                                    comment.setText(question.child("comment").getValue(String.class));
-                                }
-                            }
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {}
-                    });
-                    break;
-                case "SA":
-                    typeList.setSelection(1);
-                    databaseReference.child("SAQuiz").orderByKey().equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            // 로딩창 제거
-                            progressDialog.showProgress(false);
-
-                            for (DataSnapshot ds : snapshot.getChildren()) {
-                                clearQuizForm();
-                                for (DataSnapshot question : ds.child("questions").getChildren()) {
-                                    View form = addQuizForm(R.layout.quiz_single_form);
-
-                                    EditText content = form.findViewById(R.id.quiz_content_input);
-                                    EditText answer = form.findViewById(R.id.quiz_answer_input);
-                                    EditText comment = form.findViewById(R.id.quiz_commentary_input);
-
-                                    content.setText(question.child("description").getValue(String.class));
-                                    answer.setText(question.child("answer").getValue(String.class));
-                                    comment.setText(question.child("comment").getValue(String.class));
-                                }
-                            }
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {}
-                    });
-                    break;
-                case "OX":
-                    typeList.setSelection(2);
-                    databaseReference.child("OXQuiz").orderByKey().equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            // 로딩창 제거
-                            progressDialog.showProgress(false);
-
-                            for (DataSnapshot ds : snapshot.getChildren()) {
-                                clearQuizForm();
-                                for (DataSnapshot question : ds.child("questions").getChildren()) {
-                                    View form = addQuizForm(R.layout.quiz_ox_form);
-
-                                    EditText content = form.findViewById(R.id.quiz_content_input);
-                                    EditText answer = form.findViewById(R.id.quiz_answer_input01);
-                                    EditText wrong = form.findViewById(R.id.quiz_answer_input02);
-                                    EditText comment = form.findViewById(R.id.quiz_commentary_input);
-
-                                    content.setText(question.child("description").getValue(String.class));
-                                    answer.setText(question.child("answer").getValue(String.class));
-                                    wrong.setText(question.child("wrong").getValue(String.class));
-                                    comment.setText(question.child("comment").getValue(String.class));
-                                }
-                            }
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {}
-                    });
-                    break;
-            }
         } else {
             // 로딩창 제거
             progressDialog.showProgress(false);
