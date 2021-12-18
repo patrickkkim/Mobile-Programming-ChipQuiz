@@ -75,17 +75,10 @@ public class ResultQuizActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_result);
-        // 앱 아이콘 표시
-        ActionBar bar = getSupportActionBar();
-        bar.setIcon(R.drawable.quiz);
-        bar.setDisplayUseLogoEnabled(true);
-        bar.setDisplayShowHomeEnabled(true);
 
         questionCount = (long)getIntent().getIntExtra("numOfQuestion", 1);
         correctQuiz = (long)getIntent().getIntExtra("isCorrect", 0);
 
-        // 앱바 이름 바꾸기
-        bar.setTitle("결과");
 
         firebaseAuth = FirebaseAuth.getInstance();
         userUid = firebaseAuth.getUid();
