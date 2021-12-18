@@ -30,7 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.koreatech.chipquiz.chipquiz.QuizAddActivity.QuizMetaData;
 import com.koreatech.chipquiz.chipquiz.QuizAddActivity.ProgressDialog;
-//import com.koreatech.chipquiz.chipquiz.User;
+import com.koreatech.chipquiz.chipquiz.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -62,9 +62,9 @@ public class MainActivity extends BaseActivity {
     DatabaseReference databaseReference = firebaseDatabase.getReference();
     DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
 
-    //sdfgsdf
     List <QuizMetaData> quizList = new ArrayList<QuizMetaData>();
-    //List <User> userList = new ArrayList<User>();
+    List <User> userList = new ArrayList<User>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,71 +89,72 @@ public class MainActivity extends BaseActivity {
         orderbyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
         orderbySpinner.setAdapter(orderbyAdapter);
-        //getRanking();
+
+        // 유저 정보 불러옴
+        databaseReference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                progressDialog.showProgress(false); // 로딩창 종료
+
+                userList.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    User userInfo = ds.getValue(User.class);
+                    userList.add(userInfo);
+                }
+
+                Collections.sort(userList, new SortByScore(0, true)); // 유저 랭킹 측정을 위한 점수 합산
+                updateRanking();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
+        });
+
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 // 로딩창 시작
                 progressDialog.showProgress(true);
-                
                 String[] categoryArray = getResources().getStringArray(R.array.category_array);
-                List<Integer> Score;
-                ValueEventListener valueEventListener= new ValueEventListener() {
 
-
+                ValueEventListener valueEventListener = new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         clearQuizForm(false);
-
-                        // 로딩창 종료
-                        progressDialog.showProgress(false);
+                        progressDialog.showProgress(false); // 로딩창 종료
 
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                            QuizMetaData quizInfo=ds.getValue(QuizMetaData.class);
-                            //User userInfo = ds.getValue(User.class);
-
+                            QuizMetaData quizInfo = ds.getValue(QuizMetaData.class);
                             quizList.add(quizInfo);
-                            //userList.add(userInfo);
+                        }
 
-                        }
-                        if(orderby.equals("추천순")){
-                            Collections.sort(quizList, new SortbyLikes());
-                        }
-                        else{
-                            Collections.sort(quizList, new SortbyDate());
-                        }
-                        for ( QuizMetaData quizInfo : quizList) {
+                        if(orderby.equals("추천순")){ Collections.sort(quizList, new SortbyLikes()); }
+                        else{ Collections.sort(quizList, new SortbyDate()); }
 
+                        for (QuizMetaData quizInfo : quizList) {
                             String type = quizInfo.MC ? "MCQuiz" : (quizInfo.SA ? "SAQuiz" : "OXQuiz");
-
                             addListForm(quizInfo.name, type, quizInfo.likes);
-
                         }
-                        //Collections.sort(userList, new SortbyUserScore());
-                       // FirstUser=findViewById(R.id.firstUser);
-                       // FirstUser.setText(userList.get(0).nickname);
-                        //for( User userInfo : userList){
-                        //    List UserScore= userInfo.category_score;
-
-                        //}
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
+                    public void onCancelled(DatabaseError databaseError) {}
                 };
 
                 if (categoryArray[i].equals("전체")){
+                    Collections.sort(userList, new SortByScore(i, true)); // 유저 랭킹 측정을 위한 점수 합산
                     databaseReference.child("Quizs").addListenerForSingleValueEvent(valueEventListener);
-                   // databaseReference.child("Users").addListenerForSingleValueEvent(valueEventListener);
                     temp=categoryArray[i];
-                }
-                else{
+                } else {
+                    Collections.sort(userList, new SortByScore(i, false));
                     databaseReference.child("Quizs").orderByChild("category").equalTo(categoryArray[i]).addListenerForSingleValueEvent(valueEventListener);
                     temp=categoryArray[i];
                 }
 
+                // 유저 랭킹 업데이트
+                if (!userList.isEmpty()) {
+                    updateRanking();
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -264,40 +265,70 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    class SortbyLikes implements Comparator<QuizMetaData>{
-
-
-            public int compare(QuizMetaData a, QuizMetaData b)
-            {
-                return b.likes - a.likes;
-            }
-
+    class SortbyLikes implements Comparator<QuizMetaData> {
+        public int compare(QuizMetaData a, QuizMetaData b) {
+            return b.likes - a.likes;
+        }
     }
 
-    class SortbyDate implements Comparator<QuizMetaData>{
+    class SortbyDate implements Comparator<QuizMetaData> {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
-
-        public int compare(QuizMetaData a, QuizMetaData b)
-        {
+        public int compare(QuizMetaData a, QuizMetaData b) {
             try {
                 return formatter.parse(b.datetime).compareTo(formatter.parse(a.datetime));
-            }catch(ParseException e){
+            } catch(ParseException e){
                 throw new IllegalArgumentException(e);
             }
         }
-
     }
-    //class SortbyUserScore implements Comparator<User>{
-    //    ArrayList<Integer> c;
-     //   public long compare(User a, User b) {
 
-     //   }
-    //}
+    class SortByScore implements Comparator<User> {
+        int category;
+        boolean isAll;
+
+        public SortByScore(int category, boolean isAll) {
+            this.category = category;
+            this.isAll = isAll;
+        }
+
+        public int compare(User a, User b) {
+            Integer sumA = 0, sumB = 0;
+            if (isAll) {
+                sumA = (int) a.sum;
+                sumB = (int) b.sum;
+            } else {
+                sumA = a.category_score.get(category-1);
+                sumB = b.category_score.get(category-1);
+            }
+            return sumB - sumA;
+        }
+    }
+
     private void clearQuizForm(boolean isorderby) {
         if(!isorderby){ quizList.clear();}
         LinearLayout dynamicLayout = (LinearLayout) findViewById(R.id.quiz_solve_layout);
         dynamicLayout.removeAllViews();
     }
 
+    private void updateRanking() {
+        TextView firstUser = findViewById(R.id.firstUser);
+        TextView secondUser = findViewById(R.id.secondUser);
+        TextView thirdUser = findViewById(R.id.thirdUser);
+        TextView playerRank = findViewById(R.id.userRank);
+        firstUser.setText(userList.get(0).nickname);
+        secondUser.setText(userList.get(1).nickname);
+        thirdUser.setText(userList.get(2).nickname);
+
+        User currUser = userList.get(0);
+        Integer rank = 1;
+        for (User userInfo : userList) {
+            if (userInfo.email.equals(user.getEmail())) {
+                currUser = userInfo;
+                break;
+            }
+            rank++;
+        }
+        playerRank.setText(Integer.toString(rank)+"등");
+    }
 }
