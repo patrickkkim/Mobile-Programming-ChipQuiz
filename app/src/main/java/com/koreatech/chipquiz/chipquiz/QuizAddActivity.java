@@ -164,7 +164,7 @@ public class QuizAddActivity extends BaseActivity {
                     public void run() {
                         dialog.dismiss();
                     }
-                }, 1000);
+                }, 250);
             }
         }
     }
@@ -254,6 +254,9 @@ public class QuizAddActivity extends BaseActivity {
                     databaseReference.child("MCQuiz").orderByKey().equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            // 로딩창 제거
+                            progressDialog.showProgress(false);
+
                             for (DataSnapshot ds : snapshot.getChildren()) {
                                 clearQuizForm();
                                 for (DataSnapshot question : ds.child("questions").getChildren()) {
@@ -284,6 +287,9 @@ public class QuizAddActivity extends BaseActivity {
                     databaseReference.child("SAQuiz").orderByKey().equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            // 로딩창 제거
+                            progressDialog.showProgress(false);
+
                             for (DataSnapshot ds : snapshot.getChildren()) {
                                 clearQuizForm();
                                 for (DataSnapshot question : ds.child("questions").getChildren()) {
@@ -308,6 +314,9 @@ public class QuizAddActivity extends BaseActivity {
                     databaseReference.child("OXQuiz").orderByKey().equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            // 로딩창 제거
+                            progressDialog.showProgress(false);
+
                             for (DataSnapshot ds : snapshot.getChildren()) {
                                 clearQuizForm();
                                 for (DataSnapshot question : ds.child("questions").getChildren()) {
@@ -330,10 +339,10 @@ public class QuizAddActivity extends BaseActivity {
                     });
                     break;
             }
+        } else {
+            // 로딩창 제거
+            progressDialog.showProgress(false);
         }
-
-        // 로딩창 제거
-        progressDialog.showProgress(false);
     }
 
     public void onButtonClick(View view) {

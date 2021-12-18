@@ -98,6 +98,9 @@ public class MainActivity extends BaseActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         clearQuizForm(false);
 
+                        // 로딩창 종료
+                        progressDialog.showProgress(false);
+
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             QuizMetaData quizInfo=ds.getValue(QuizMetaData.class);
                             quizList.add(quizInfo);
@@ -132,8 +135,6 @@ public class MainActivity extends BaseActivity {
                     databaseReference.child("Quizs").orderByChild("category").equalTo(categoryArray[i]).addListenerForSingleValueEvent(valueEventListener);
                     temp=categoryArray[i];
                 }
-                // 로딩창 종료
-                progressDialog.showProgress(false);
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
