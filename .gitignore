@@ -143,4 +143,7 @@ fabric.properties
 
 !/gradle/wrapper/gradle-wrapper.jar
 
+# deployment ignore
+deploymentTargetDropDown.xml
+
 # End of https://www.toptal.com/developers/gitignore/api/androidstudio
