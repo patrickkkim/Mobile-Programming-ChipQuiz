@@ -3,9 +3,6 @@ package com.koreatech.chipquiz.chipquiz;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -177,13 +174,6 @@ public class MainActivity extends BaseActivity {
         });
 
 
-    }
-    // 액션바 관련 함수
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.action_bar, menu);
-        return super.onCreateOptionsMenu(menu);
     }
 
     // 퀴즈 이동 버튼
